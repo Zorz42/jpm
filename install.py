@@ -43,7 +43,12 @@ if len(sys.argv) == 1:
 
 elif len(sys.argv) == 2:
 	if sys.argv[1] == "install":
-		system("sudo cp -r jpm-sources/ /usr/local/bin")
+		if platform.system() == 'Linux':
+			system("sudo cp -r jpm-sources/ /usr/local/bin")
+		elif platform.system() == 'Darwin':
+			system("sudo cp -r jpm-sources/ /usr/local/bin/jpm-sources”)
+		else:
+			print("Unsuported os!")
 		system("sudo cp jpm /usr/local/bin")
 		system("sudo chmod +x /usr/local/bin/jpm")
 		print("JPM installed sucsessfully! Type jpm in terminal for help.")
