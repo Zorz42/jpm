@@ -46,7 +46,7 @@ elif len(sys.argv) == 2:
 		if platform.system() == 'Linux':
 			system("sudo cp -r jpm-sources/ /usr/local/bin")
 		elif platform.system() == 'Darwin':
-			system("sudo cp -r jpm-sources/ /usr/local/bin/jpm-sources”)
+			system("sudo cp -r jpm-sources/ /usr/local/bin/jpm-sources")
 		else:
 			print("Unsuported os!")
 		system("sudo cp jpm /usr/local/bin")
