@@ -13,4 +13,4 @@ STANDALONE INSTALATION PROCESS:
  - if you do not have python installed install python3, or python2 (python3 is recomended)
  - then type python3 install.py or python install.py depending on what python you have installed
  - follow the instructions that get printed
- - jaclang will be installed on /usr/local/bin/jpm-sources
+ - jpm will be installed on /usr/local/bin/jpm-sources
