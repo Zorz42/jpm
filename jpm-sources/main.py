@@ -17,7 +17,7 @@ if len(sys.argv) == 1:
     print("    jpm list               - list all installed packages")
     print("    jpm cleanup            - clean up unused dependencies and invalid files")
     print("    jpm upgrade            - upgrade to newer jpm version (if exists)")
-    print("    jpm forceupgrade       - upgrade jpm anyway (install newest version of jpm even if current jpm is already newest)")
+    print("    jpm forceupgrade       - upgrade jpm not matter what (install newest version of jpm even if current jpm is already newest)")
     exit(0)
 
 arg  = sys.argv[1]

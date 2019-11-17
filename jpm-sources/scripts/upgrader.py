@@ -29,7 +29,7 @@ def forceupgrade():
         zip_ref.extractall(currentdir)
     print("DONE")
     print("Installing jpm:")
-    os.system("cd jpm-master && python3 install.py dependencies && python3 install.py install")
+    os.system("cd " + currentdir + "jpm-master && python3 install.py dependencies && python3 install.py install")
 
 
 def upgrade():
