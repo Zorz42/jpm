@@ -43,6 +43,7 @@ if __name__ == "__main__":
         print("If you do not have python installed, then install python (python3 recommended)")
 
     elif len(sys.argv) == 2:
+        system("cd jpm-sources && mkdir to_install librarysources metadatas")
         if sys.argv[1] == "install":
             if platform.system() == 'Linux':
                 system("sudo cp -r jpm-sources/ /usr/local/bin")
