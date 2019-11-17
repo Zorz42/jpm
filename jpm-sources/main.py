@@ -24,23 +24,25 @@ arg  = sys.argv[1]
 args = sys.argv[2:]
 
 # check or jpm update (upgrade)
-args_not_to_check_updates = ["list", "upgrade"]
-if arg not in args_not_to_check_updates:
+def check_for_JPM_update():
     if check_for_upgrade():
         print("\x1b[0mJPM needs to be updated! Update it by typing jpm upgrade!\x1b[1;30m")
     else:
         print("JPM is up to date.")
 
 if arg == "install":
+    check_for_JPM_update
     if not check_internet_connection():
         print("\x1b[0;31mCannot connect to jaclang.zorz.si")
         exit(1)
     install(args)
 elif arg == "remove":
+    check_for_JPM_update
     remove(args)
 elif arg == "list":
     list_packages()
 elif arg == "cleanup":
+    check_for_JPM_update
     cleanup()
 elif arg == "upgrade":
     if not check_internet_connection():
