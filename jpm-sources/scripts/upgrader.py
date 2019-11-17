@@ -1,4 +1,4 @@
-import wget, zipfile
+import wget, zipfile, shutil
 from scripts.checkforinternetconnection import check_internet_connection
 from globals import *
 from version import *
@@ -32,7 +32,7 @@ def forceupgrade():
     os.system("cd " + currentdir + "jpm-master && python3 install.py dependencies && python3 install.py install")
     print("Cleaning up ... ", end='')
     os.remove(currentdir + "newerjpm.zip")
-    os.rmtree(currentdir + "jpm-master")
+    shutil.rmtree(currentdir + "jpm-master")
     print("DONE")
 
 
