@@ -86,9 +86,7 @@ if __name__ == "__main__":
                 print("Checking for dependencies:")
                 check_for_package("brew", "brew", '/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"')
                 check_for_package("python3", "python3", "brew install python3")
-                check_for_package("python3-pip3", "python3-pip3", "brew install python3-pip")
-                check_for_package("pip3-wget", "cannot-check", "pip3 install wget")
-
+                system("python3 checkforwget.py")
             else:
                 print("Unsuported os!")
         else:
