@@ -32,7 +32,7 @@ def forceupgrade():
     os.system("cd " + currentdir + "jpm-master && python3 install.py dependencies && python3 install.py install")
     print("Cleaning up ... ", end='')
     os.remove(currentdir + "newerjpm.zip")
-    os.removedirs(currentdir + "jpm-master")
+    os.rmtree(currentdir + "jpm-master")
     print("DONE")
 
 
