@@ -36,5 +36,4 @@ def upgrade():
     if not check_for_upgrade():
         print("\x1b[0mJPM is up to date.")
         return
-    os.system()
     forceupgrade()
