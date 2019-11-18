@@ -33,7 +33,7 @@ def check_for_JPM_update():
 if arg == "install":
     check_for_JPM_update
     if not check_internet_connection():
-        print("\x1b[0;31mCannot connect to jaclang.zorz.si")
+        print("\x1b[0;31mCannot connect to google")
         exit(1)
     install(args)
 elif arg == "remove":
