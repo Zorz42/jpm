@@ -1,5 +1,5 @@
 import sys
-from os import popen, system, path
+from os import popen, system, path, mkdir
 import platform
 
 python3 = sys.version_info.major == 3
@@ -43,7 +43,11 @@ if __name__ == "__main__":
         print("If you do not have python installed, then install python (python3 recommended)")
 
     elif len(sys.argv) == 2:
-        system("cd jpm-sources && mkdir to_install librarysources metadatas")
+        dirs = ['to_install', 'librarysources', 'metadatas']
+        for dir in dirs:
+            if not path.isdir("jpm-sources/" + dir):
+                print("Creating jpm-sources/" + dir)
+                mkdir('jpm-sources/' + dir)
         if sys.argv[1] == "install":
             if platform.system() == 'Linux':
                 system("sudo cp -r jpm-sources/ /usr/local/bin")
