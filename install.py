@@ -1,6 +1,5 @@
-import sys
 from os import popen, system, path, mkdir
-import platform
+import platform, sys
 
 python3 = sys.version_info.major == 3
 
