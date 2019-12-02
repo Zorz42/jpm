@@ -94,6 +94,6 @@ if __name__ == "__main__":
             else:
                 print("Unsuported os!")
         else:
-            print("Invalid argument:: " + sys.argv[1])
+            print("Invalid argument: " + sys.argv[1])
     else:
         print("Only one argument allowed!")
