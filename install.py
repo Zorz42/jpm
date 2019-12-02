@@ -45,7 +45,6 @@ if __name__ == "__main__":
         dirs = ['to_install', 'librarysources', 'metadatas']
         for dir in dirs:
             if not path.isdir("jpm-sources/" + dir):
-                print("Creating jpm-sources/" + dir)
                 mkdir('jpm-sources/' + dir)
         if sys.argv[1] == "install":
             if platform.system() == 'Linux':
