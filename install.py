@@ -46,7 +46,7 @@ if __name__ == "__main__":
         for dir in dirs:
             if not path.isdir("jpm-sources/" + dir):
                 mkdir('jpm-sources/' + dir)
-        if sys.argv[1] == "install":
+        if sys.argv[1] == "install" or sys.argv[1] == "quietinstall":
             if platform.system() == 'Linux':
                 system("sudo cp -r jpm-sources/ /usr/local/bin")
             elif platform.system() == 'Darwin':
@@ -55,7 +55,8 @@ if __name__ == "__main__":
                 print("Unsuported os!")
             system("sudo cp jpm /usr/local/bin")
             system("sudo chmod +x /usr/local/bin/jpm")
-            print("JPM installed sucsessfully! Type jpm in terminal for help.")
+            if sys.argv[1] == "install":
+                print("JPM installed sucsessfully! Type jpm in terminal for help.")
         
         elif sys.argv[1] == "dependencies":
 
