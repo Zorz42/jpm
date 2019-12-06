@@ -1,23 +1,29 @@
-import wget, zipfile, shutil
-from scripts.checkforinternetconnection import check_internet_connection
+import shutil
+import wget
+import zipfile
+
 from globals import *
-from version import *
+from scripts.checkforinternetconnection import check_internet_connection
 from scripts.install_bar import *
+from version import *
+
 
 def check_for_upgrade():
     print("Checking for upgrade ... ", end='')
     if check_internet_connection():
         if os.path.isfile(currentdir + "newestversion.txt"):
             os.remove(currentdir + "newestversion.txt")
-        wget.download("https://raw.githubusercontent.com/Zorz42/jpm/master/jpm-sources/version.py", currentdir + "newestversion.txt", bar=empty_bar)
+        wget.download("https://raw.githubusercontent.com/Zorz42/jpm/master/jpm-sources/version.py", currentdir +
+                      "newestversion.txt", bar=None)
     with open(currentdir + "newestversion.txt") as newest_version:
         newestversion = newest_version.read().split()[2]
-        newestversion = newestversion[1:len(newestversion)-1]
+        newestversion = newestversion[1:len(newestversion) - 1]
         print("DONE")
         if newestversion != version:
             return True
         else:
             return False
+
 
 def forceupgrade():
     print("\x1b[0mDownloading jpm:")

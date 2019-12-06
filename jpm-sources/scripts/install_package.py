@@ -1,5 +1,7 @@
+import json
+
 from globals import *
-import os, json
+
 
 def install_package(package_name, dependency):
     with open(installdir + package_name + ".json") as metafile:

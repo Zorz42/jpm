@@ -1,9 +1,11 @@
+import shutil
+
 from scripts.list_packages import *
 from scripts.remove import *
-import os, shutil
 
 used_packages = []
 metadatas = {}
+
 
 def list_dependencies(package_name):
     if package_name not in used_packages:
@@ -11,6 +13,7 @@ def list_dependencies(package_name):
         if 'dependencies' not in metadatas.keys():
             for package in metadatas[package_name]['dependencies']:
                 list_dependencies(package)
+
 
 def cleanup():
     print("Starting cleanup")
@@ -36,11 +39,11 @@ def cleanup():
         list_dependencies(package)
     unused_packages = [x for x in installed_packages if x not in used_packages]
     print("DONE\x1b[0m")
-    if unused_packages == []:\
+    if not unused_packages:
         print("All packages are being used.")
     else:
         remove(unused_packages, True)
-    if to_remove != []:
+    if to_remove:
         print("Following files/directories are not valid packages and thus do not belong here and will be deleted:")
         list_packages_print(to_remove)
         if choice():

@@ -1,6 +1,8 @@
+import json
+
 from globals import *
 from scripts.verify import *
-import os, json
+
 
 def list_installed_packages():
     all_files = os.listdir(metadatadir)
@@ -14,7 +16,8 @@ def list_installed_packages():
             with open(metadatadir + file) as metafile:
                 if not verify_package_json(json.load(metafile), file.split('.')[0], False):
                     to_remove.append(file)
-    return ([x.split('.')[0] for x in all_files if x not in to_remove], to_remove)
+    return [x.split('.')[0] for x in all_files if x not in to_remove], to_remove
+
 
 def list_packages():
     print("\x1b[0mListing all installed packages:")

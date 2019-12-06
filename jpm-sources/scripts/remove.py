@@ -1,9 +1,11 @@
+import json
+
 from globals import *
 from scripts.verify import *
-import os, json
+
 
 def remove(package_names, force=False):
-    print("Verifying packages ... ", end='', flush='')
+    print("Verifying packages ... ", end='', flush=False)
     for package in package_names:
         if not os.path.isfile(metadatadir + package + ".json"):
             print("FAILED")
@@ -19,7 +21,9 @@ def remove(package_names, force=False):
                 exit(0)
             elif metadata['type'] == 'dependency' and not force:
                 print("FAILED")
-                print("\x1b[0;31mPackage " + package + " is a dependency and is probably needed by other packages. If you want to remove packages type 'jpm cleanup'.")
+                print(
+                    "\x1b[0;31mPackage " + package + " is a dependency and is probably needed by other packages. "
+                                                     "If you want to remove packages type 'jpm cleanup'.")
                 print("\x1b[0;31mAborting")
                 exit(0)
     print("DONE")
