@@ -14,7 +14,7 @@ def decision(question):
 				decision = raw_input(question + " [y,n]:")
 		except:
 			pass
-		
+
 		if decision.upper() in yesOptions:
 			return True
 		elif decision.upper() in noOptions:
@@ -57,7 +57,7 @@ if __name__ == "__main__":
             system("sudo chmod +x /usr/local/bin/jpm")
             if sys.argv[1] == "install":
                 print("JPM installed sucsessfully! Type jpm in terminal for help.")
-        
+
         elif sys.argv[1] == "dependencies":
 
             if platform.system() == 'Linux':
@@ -79,7 +79,7 @@ if __name__ == "__main__":
                 if current_package_manager == '':
                     print('Could not find package manager!')
                     exit(1)
-                
+
                 print("Checking for dependencies:")
                 check_for_package("python3", "python3", "sudo " + current_package_manager + " python3")
                 check_for_package("python3-pip", "pip3", "sudo " + current_package_manager + " python3-pip")
