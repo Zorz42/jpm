@@ -7,12 +7,13 @@ from scripts.checkforinternetconnection import check_internet_connection
 from scripts.install_bar import *
 from version import *
 from globals import *
+from scripts.cleanup import cleanup
 
 newestversion = None
 
 def check_for_upgrade():
     print_debug("Checking for upgrade ... ", end='')
-    if is_internet_connection:
+    if check_internet_connection():
         if os.path.isfile(currentdir + "newestversion.txt"):
             os.remove(currentdir + "newestversion.txt")
         wget.download("https://raw.githubusercontent.com/Zorz42/jpm/master/jpm-sources/version.py", currentdir +
@@ -28,7 +29,9 @@ def check_for_upgrade():
             return False
 
 
-def forceupgrade(version="master"):
+def forceupgrade():
+    if version == "vmaster":
+        version = "master"
     print_normal("Downloading jpm:")
     if os.path.isfile(currentdir + "newerjpm.zip"):
         os.remove(currentdir + "newerjpm.zip")
@@ -49,6 +52,7 @@ def forceupgrade(version="master"):
     os.remove(currentdir + "newerjpm.zip")
     shutil.rmtree(currentdir + "jpm-" + str(version))
     print_debug("DONE")
+    cleanup()
 
 
 def upgrade():

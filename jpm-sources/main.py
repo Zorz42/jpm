@@ -17,16 +17,12 @@ if len(sys.argv) == 1:
     print_normal("    jpm remove [packages]  - remove packages")
     print_normal("    jpm list               - list all installed packages")
     print_normal("    jpm cleanup            - clean up unused dependencies and invalid files")
-    print_normal("    jpm upgrade [argument] - upgrade to specified version if not specified, upgrade to latest if exists")
-    print_normal("    jpm forceupgrade       - upgrade jpm anyway (install newest version of jpm "
-          "even if current jpm is already newest)")
+    print_normal("    jpm upgrade [argument] - upgrade to specified version if not specified, upgrade to latest if exists, master is latest, but unstable version")
     print_normal("    jpm repair             - if your jpm is throwing error try this. You might get rid of them.")
     exit(0)
 
 arg = sys.argv[1]
 args = sys.argv[2:]
-
-is_internet_connection = check_internet_connection()
 
 # check or jpm update (upgrade)
 def check_for_jpm_update():
@@ -37,7 +33,7 @@ def check_for_jpm_update():
         print_debug("JPM is up to date.")
 
 def check_connection():
-    if not is_internet_connection:
+    if not check_internet_connection():
         print_error("Cannot connect to the internet (zorz.si)")
         exit(1)
 
@@ -55,14 +51,9 @@ elif arg == "cleanup":
 elif arg == "upgrade" and len(args) > 0:
     check_connection()
     forceupgrade("v" + args[0])
-    cleanup()
 elif arg == "upgrade":
     check_connection()
     upgrade()
-    cleanup()
-elif arg == "forceupgrade":
-    check_connection()
-    forceupgrade()
 elif arg == "repair":
     repair()
 else:
