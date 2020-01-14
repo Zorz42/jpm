@@ -24,7 +24,7 @@ def list_packages():
     (installed_packages, to_remove) = list_installed_packages()
     for package in installed_packages:
         print_normal(package)
-    if to_remove != []:
+    if to_remove:
         print_normal("Folloving files/directories are invalid json files and do not belong here:")
         list_packages_print(to_remove)
         print_normal("Type 'jpm cleanup' to remove them.")

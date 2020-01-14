@@ -5,6 +5,7 @@ libdir = currentdir + "libsources/"
 metadatadir = currentdir + "metadatas/"
 installdir = currentdir + "to_install/"
 
+is_internet_connection = None
 
 def choice():
     yesOptions = ["Y", "YES"]

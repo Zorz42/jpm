@@ -26,6 +26,8 @@ if len(sys.argv) == 1:
 arg = sys.argv[1]
 args = sys.argv[2:]
 
+is_internet_connection = check_internet_connection()
+
 # check or jpm update (upgrade)
 def check_for_jpm_update():
     if check_for_upgrade():
@@ -35,8 +37,8 @@ def check_for_jpm_update():
         print_debug("JPM is up to date.")
 
 def check_connection():
-    if not check_internet_connection():
-        print_error("Cannot connect to the internet (google)")
+    if not is_internet_connection:
+        print_error("Cannot connect to the internet (zorz.si)")
         exit(1)
 
 if arg == "install":

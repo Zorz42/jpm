@@ -6,12 +6,13 @@ from globals import *
 from scripts.checkforinternetconnection import check_internet_connection
 from scripts.install_bar import *
 from version import *
+from globals import *
 
 newestversion = None
 
 def check_for_upgrade():
     print_debug("Checking for upgrade ... ", end='')
-    if check_internet_connection():
+    if is_internet_connection:
         if os.path.isfile(currentdir + "newestversion.txt"):
             os.remove(currentdir + "newestversion.txt")
         wget.download("https://raw.githubusercontent.com/Zorz42/jpm/master/jpm-sources/version.py", currentdir +

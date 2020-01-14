@@ -65,7 +65,7 @@ if __name__ == "__main__":
                 current_package_manager = ''
                 package_managers = ['apt', 'yum', 'emerge', 'pacman', 'zypper']
                 for package_manager in package_managers:
-                    if popen("which " + package_manager).read() != "":
+                    if popen("which " + package_manager).read():
                         if package_manager == 'apt':
                             current_package_manager = 'apt install'
                         elif package_manager == 'yum':
