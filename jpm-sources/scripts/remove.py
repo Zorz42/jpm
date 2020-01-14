@@ -3,39 +3,34 @@ import json
 from globals import *
 from scripts.verify import *
 
+def fail(text):
+    print_debug("FAILED")
+    print_error(text)
+    abort()
 
 def remove(package_names, force=False):
-    print("Verifying packages ... ", end='', flush=False)
+    print_debug("Verifying packages ... ", end='', flush=False)
     for package in package_names:
         if not os.path.isfile(metadatadir + package + ".json"):
-            print("FAILED")
-            print("\x1b[0;31mPackage " + package + " is not installed.")
-            print("\x1b[0;31mAborting")
-            exit(0)
+            print_debug("FAILED")
+            print_error("Package " + package + " is not installed.")
+            abort()
         with open(metadatadir + package + ".json") as file:
             metadata = json.load(file)
             if not verify_package_json(metadata, package, False):
-                print("FAILED")
-                print("\x1b[0;31mPackage " + package + " does not have a valid json file.")
-                print("\x1b[0;31mAborting")
-                exit(0)
+                fail("Package " + package + " does not have a valid json file.")
             elif metadata['type'] == 'dependency' and not force:
-                print("FAILED")
-                print(
-                    "\x1b[0;31mPackage " + package + " is a dependency and is probably needed by other packages. "
-                                                     "If you want to remove packages type 'jpm cleanup'.")
-                print("\x1b[0;31mAborting")
-                exit(0)
-    print("DONE")
-    print("\x1b[0mFollowing packages will be removed:")
+                fail("Package " + package + " is a dependency and is probably needed by other packages. "
+                                                     "If you want to remove unused dependencies type 'jpm cleanup'.")
+    print_debug("DONE")
+    print_normal("Following packages will be removed:")
     list_packages_print(package_names)
     if choice():
-        print("\x1b[1;30m", end='')
+        print_debug(end="")
         for package in package_names:
-            print("Removing " + package + " ... ", end='', flush=True)
+            print_debug("Removing " + package + " ... ", end='', flush=True)
             os.remove(metadatadir + package + ".json")
-            print("DONE")
+            print_debug("DONE")
     else:
-        print("\x1b[0;31mAborting")
-        exit(0)
-    print("\x1b[0mRemoved " + str(len(package_names)) + " packages.")
+        abort()
+    print_normal("Removed " + str(len(package_names)) + " packages.")

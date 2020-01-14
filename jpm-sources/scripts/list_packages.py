@@ -20,11 +20,11 @@ def list_installed_packages():
 
 
 def list_packages():
-    print("\x1b[0mListing all installed packages:")
+    print_normal("Listing all installed packages:")
     (installed_packages, to_remove) = list_installed_packages()
     for package in installed_packages:
-        print(package)
+        print_normal(package)
     if to_remove != []:
-        print("Folloving files/directories are invalid json files and do not belong here:")
+        print_normal("Folloving files/directories are invalid json files and do not belong here:")
         list_packages_print(to_remove)
-        print("Type 'jpm cleanup' to remove them.")
+        print_normal("Type 'jpm cleanup' to remove them.")

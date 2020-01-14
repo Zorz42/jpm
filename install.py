@@ -1,35 +1,36 @@
-from os import popen, system, path, mkdir
+from os import popen, system, path, mkdir, environ
 import platform, sys
 
 python3 = sys.version_info.major == 3
 
-def decision(question):
-	yesOptions = ["Y", "YES"]
-	noOptions  = ["N", "NO"]
-	while True:
-		try:
-			if(python3):
-				decision = input(question + " [y,n]:")
-			else:
-				decision = raw_input(question + " [y,n]:")
-		except:
-			pass
+bin_paths = environ["PATH"].split(":")
 
-		if decision.upper() in yesOptions:
-			return True
-		elif decision.upper() in noOptions:
-			return False
+def decision(question):
+    yesOptions = ["Y", "YES"]
+    noOptions  = ["N", "NO"]
+    while True:
+        if python3:
+            decision = input(question + " [y,n]:")
+        else:
+            decision = raw_input(question + " [y,n]:")
+
+        if decision.upper() in yesOptions:
+            return True
+        elif decision.upper() in noOptions:
+            return False
 
 def check_for_package(name, binary, install_command):
-	prefix = name.upper() + " ... "
-	if popen("which " + binary).read() == "":
-		print(prefix + "FAILED")
-		if decision("Do you want me to install " + name + "?"):
-			system(install_command)
-		else:
-			exit(1)
-	else:
-		print(prefix + "OK")
+    print(name.upper() + ' ... ', end='')
+    for bin_path in bin_paths:
+        if path.isfile(bin_path + "/" + binary):
+            print("OK")
+            break
+    else:
+        print("FAILED")
+        if decision("Do you want me to install " + name + "?"):
+            system(install_command)
+        else:
+            exit(1)
 
 if __name__ == "__main__":
     if len(sys.argv) == 1:
@@ -39,7 +40,7 @@ if __name__ == "__main__":
         print("If you have python2 installed:")
         print("	python install.py dependencies")
         print("	python3 install.py install")
-        print("If you do not have python installed, then install python (python3 recommended)")
+        print("If you do not have python installed, then install python2 or python3 (python3 recommended)")
 
     elif len(sys.argv) == 2:
         dirs = ['to_install', 'librarysources', 'metadatas']
