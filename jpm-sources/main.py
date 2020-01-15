@@ -65,7 +65,11 @@ def main():
         repair()
     elif arg == "listall":
         from scripts.listall import listall
+        from scripts.upgrader import check_for_jpm_update
+        from scripts.checkforinternetconnection import check_connection
 
+        check_connection()
+        check_for_jpm_update()
         listall()
     else:
         print_error("Unknown argument: " + arg)
