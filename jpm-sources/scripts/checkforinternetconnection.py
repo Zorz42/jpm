@@ -6,7 +6,10 @@ from globals import print_error, jpm_exit
 
 
 def check_internet_connection():
-    ssl._create_default_https_context = ssl._create_unverified_context
+    try:
+        ssl._create_default_https_context = ssl._create_unverified_context
+    except AttributeError:
+        print_normal("ssl create unverified context failed. In most cases this is fine.")
     try:
         urllib.request.urlopen("https://zorz.si")
         return True
