@@ -2,14 +2,14 @@ import ssl
 import urllib.error
 import urllib.request
 
-from globals import print_error, jpm_exit, print_normal
+from globals import print_error, jpm_exit
 
 
 def check_internet_connection():
     try:
         ssl._create_default_https_context = ssl._create_unverified_context
     except AttributeError:
-        print_normal("ssl create unverified context failed. In most cases this is fine.")
+        pass
     try:
         urllib.request.urlopen("https://zorz.si")
         return True
