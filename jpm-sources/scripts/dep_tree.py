@@ -7,7 +7,7 @@ from scripts.verify import *
 
 def build_dep_tree(package_name):
     dependency_list = []
-    wget.download("https://jaclang.zorz.si/main-repository/" + package_name + "/metadata.json",
+    wget.download("https://jaclang.zorz.si/main-repository/" + package_name + ".json",
                   installdir + package_name + ".json", bar=None)
     with open(installdir + package_name + ".json") as metafile:
         try:

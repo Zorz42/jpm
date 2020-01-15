@@ -6,7 +6,7 @@ from scripts.install_package import *
 
 def check_if_package_exists(package_name):
     h = httplib2.Http()
-    resp = h.request("https://jaclang.zorz.si/main-repository/" + package_name + "/metadata.json", 'HEAD')
+    resp = h.request("https://jaclang.zorz.si/main-repository/" + package_name + ".json", 'HEAD')
     return int(resp[0]['status']) < 400
 
 
