@@ -2,7 +2,7 @@ import ssl
 import urllib.error
 import urllib.request
 
-from globals import print_error, jpm_exit
+from globals import print_error, jpm_exit, print_normal
 
 
 def check_internet_connection():
