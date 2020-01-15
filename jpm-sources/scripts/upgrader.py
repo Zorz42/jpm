@@ -11,7 +11,7 @@ from scripts.cleanup import cleanup
 from scripts.install_bar import install_bar
 from version import version
 
-newestversion: str
+newestversion = None
 
 
 def check_for_upgrade():
