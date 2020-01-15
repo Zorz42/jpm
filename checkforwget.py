@@ -17,3 +17,4 @@ def check_for_package(name):
 
 check_for_package("wget")
 check_for_package("zipfile")
+check_for_package("bs4")

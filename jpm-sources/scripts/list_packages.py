@@ -1,10 +1,12 @@
-import json
+from json import load
+from os import listdir
 
-from scripts.verify import *
+from globals import print_normal, list_packages_print, metadatadir
+from scripts.verify import verify_package_json
 
 
 def list_installed_packages():
-    all_files = os.listdir(metadatadir)
+    all_files = listdir(metadatadir)
     to_remove = []
     for file in all_files:
         if len(file.split('.')) < 2:
@@ -13,7 +15,7 @@ def list_installed_packages():
             to_remove.append(file)
         else:
             with open(metadatadir + file) as metafile:
-                if not verify_package_json(json.load(metafile), file.split('.')[0], False):
+                if not verify_package_json(load(metafile), file.split('.')[0], False):
                     to_remove.append(file)
     return [x.split('.')[0] for x in all_files if x not in to_remove], to_remove
 

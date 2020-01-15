@@ -1,18 +1,19 @@
-import json
+from json import load, decoder
 
-import wget
+from wget import download
 
-from scripts.verify import *
+from globals import print_error, jpm_exit, installdir
+from scripts.verify import verify_package_json
 
 
 def build_dep_tree(package_name):
     dependency_list = []
-    wget.download("https://jaclang.zorz.si/main-repository/" + package_name + ".json",
-                  installdir + package_name + ".json", bar=None)
+    download("https://jaclang.zorz.si/main-repository/metadatas/" + package_name + ".json",
+             installdir + package_name + ".json", bar=None)
     with open(installdir + package_name + ".json") as metafile:
         try:
-            metadata = json.load(metafile)
-        except json.decoder.JSONDecodeError:
+            metadata = load(metafile)
+        except decoder.JSONDecodeError:
             print_error("Package " + package_name + " is not valid!")
             jpm_exit(0)
         if 'dependencies' in metadata.keys():

@@ -1,8 +1,8 @@
-import os
+from os import get_terminal_size
 
 
 def install_bar(current, total, _):
-    width = os.get_terminal_size().columns - 2
+    width = get_terminal_size().columns - 2
     print("\r[", end='')
     for i in range(int(width / total * current)):
         print(chr(9608), end='')

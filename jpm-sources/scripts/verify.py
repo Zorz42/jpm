@@ -1,4 +1,4 @@
-from globals import *
+from globals import print_debug
 
 
 def fail(print_result):

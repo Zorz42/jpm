@@ -1,7 +1,7 @@
 from getpass import getuser
 from os import system
 
-from globals import *
+from globals import print_normal
 
 
 def repair():

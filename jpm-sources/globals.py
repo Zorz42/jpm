@@ -1,7 +1,7 @@
-import os
-import sys
+from os import path
+from sys import argv
 
-currentdir = os.path.split(os.path.abspath(os.path.realpath(sys.argv[0])))[0] + '/'
+currentdir = path.split(path.abspath(path.realpath(argv[0])))[0] + '/'
 libdir = currentdir + "libsources/"
 metadatadir = currentdir + "metadatas/"
 installdir = currentdir + "to_install/"
