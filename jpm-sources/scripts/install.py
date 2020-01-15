@@ -11,34 +11,33 @@ def check_if_package_exists(package_name):
 
 
 def install(package_names):
-    print("Starting to install...")
+    print_debug("Starting to install...")
     if os.listdir(installdir):
         os.system("rm " + installdir + "*")
     for package in package_names:
         if not check_if_package_exists(package):
-            print("\x1b[0;31mPackage " + package + " does not exist.")
+            print_error("Package " + package + " does not exist.")
             exit(1)
-        print("Building dependency tree for " + package)
+        print_debug("Building dependency tree for " + package)
         if not os.path.isfile(installdir + package + ".json"):
             build_dep_tree(package)
     to_install = [x.split('.')[0] for x in os.listdir(installdir)]
     already_installed = [x.split('.')[0] for x in os.listdir(metadatadir)]
     to_install = [x for x in to_install if x not in already_installed]
     if not to_install:
-        print("\x1b[0mNothing to install!")
+        print_normal("Nothing to install!")
     else:
-        print("\x1b[0mFollowing packages will be installed:")
+        print_normal("Following packages will be installed:")
         list_packages_print(to_install)
         if not choice():
-            print("\x1b[0;31mAborting")
             if os.listdir(installdir):
                 os.system("rm " + installdir + "*")
-            exit(0)
-        print("\x1b[1;30m", end='')
+            abort()
+        print_debug(end="")
         for package in to_install:
-            print("Installing " + str(package) + " ... ", end='', flush=True)
+            print_debug("Installing " + str(package) + " ... ", end='', flush=True)
             install_package(package, package not in package_names)
-            print("DONE")
+            print_debug("DONE")
     if os.listdir(installdir):
         os.system("rm " + installdir + "*")
-    print("\x1b[0mInstalled " + str(len(to_install)) + " packages.")
+    print_normal("Installed " + str(len(to_install)) + " packages.")

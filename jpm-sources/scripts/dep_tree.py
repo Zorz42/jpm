@@ -13,12 +13,12 @@ def build_dep_tree(package_name):
         try:
             metadata = json.load(metafile)
         except:
-            print("\x1b[0;31mPackage " + package_name + " is not valid!")
+            print_error("Package " + package_name + " is not valid!")
             exit(0)
         if 'dependencies' in metadata.keys():
             dependency_list = metadata['dependencies']
         if not verify_package_json(metadata, package_name):
-            print("\x1b[0;31mPackage " + package_name + " is not valid!")
+            print_error("Package " + package_name + " is not valid!")
             exit(0)
     for dependency in dependency_list:
         build_dep_tree(dependency)
