@@ -1,6 +1,7 @@
 import platform
 import sys
 from os import popen, system, path, mkdir, environ
+from getpass import getuser
 
 python3 = sys.version_info.major == 3
 
@@ -59,6 +60,7 @@ if __name__ == "__main__":
             else:
                 print("Unsupported os!")
             system("sudo cp jpm /usr/local/bin")
+            system("sudo chown " + getuser() + " /usr/local/bin/jpm-sources")
             system("sudo chmod +x /usr/local/bin/jpm")
             if sys.argv[1] == "install":
                 print("JPM installed successfully! Type jpm in terminal for help.")
@@ -88,7 +90,6 @@ if __name__ == "__main__":
                 print("Checking for dependencies:")
                 check_for_package("python3", "python3", "sudo " + current_package_manager + " python3")
                 check_for_package("python3-pip", "pip3", "sudo " + current_package_manager + " python3-pip")
-                system("python3 checkforwget.py")
 
             elif platform.system() == 'Darwin':
 
@@ -97,9 +98,13 @@ if __name__ == "__main__":
                                   '/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install'
                                   '/master/install)"')
                 check_for_package("python3", "python3", "brew install python3")
-                system("python3 checkforwget.py")
             else:
                 print("Unsuported os!")
+            if python3:
+                from checkforpippackages import *
+                checkforpippackages_main()
+            else:
+                system("python3 checkforpippackages.py")
         else:
             print("Invalid argument: " + sys.argv[1])
     else:

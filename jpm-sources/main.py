@@ -1,5 +1,6 @@
 from sys import version_info, argv
 
+from version import version
 from globals import print_normal, print_debug, print_error, jpm_exit, currentdir
 
 
@@ -21,6 +22,7 @@ def main():
             "master is latest, but unstable version")
         print_normal("    jpm repair             - if your jpm is throwing error try this. You might get rid of them.")
         print_normal("    jpm listall            - list all packages in repositories")
+        print_normal("    jpm version            - show current version of jpm")
         jpm_exit(0)
 
     arg = argv[1]
@@ -71,6 +73,8 @@ def main():
         check_connection()
         check_for_jpm_update()
         listall()
+    elif arg == "version":
+        print_normal("Current version: " + version)
     else:
         print_error("Unknown argument: " + arg)
         jpm_exit(1)
