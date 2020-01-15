@@ -1,23 +1,26 @@
+import platform
+import sys
 from os import popen, system, path, mkdir, environ
-import platform, sys
 
 python3 = sys.version_info.major == 3
 
 bin_paths = environ["PATH"].split(":")
 
+
 def decision(question):
     yesOptions = ["Y", "YES"]
-    noOptions  = ["N", "NO"]
+    noOptions = ["N", "NO"]
     while True:
         if python3:
-            decision = input(question + " [y,n]:")
+            decisionBool = input(question + " [y,n]:")
         else:
-            decision = raw_input(question + " [y,n]:")
+            decisionBool = raw_input(question + " [y,n]:")
 
-        if decision.upper() in yesOptions:
+        if decisionBool.upper() in yesOptions:
             return True
-        elif decision.upper() in noOptions:
+        elif decisionBool.upper() in noOptions:
             return False
+
 
 def check_for_package(name, binary, install_command):
     print(name.upper() + ' ... ', end='')
@@ -32,6 +35,7 @@ def check_for_package(name, binary, install_command):
         else:
             exit(1)
 
+
 if __name__ == "__main__":
     if len(sys.argv) == 1:
         print("If you have python3 installed:")
@@ -44,20 +48,20 @@ if __name__ == "__main__":
 
     elif len(sys.argv) == 2:
         dirs = ['to_install', 'librarysources', 'metadatas']
-        for dir in dirs:
-            if not path.isdir("jpm-sources/" + dir):
-                mkdir('jpm-sources/' + dir)
+        for Dir in dirs:
+            if not path.isdir("jpm-sources/" + Dir):
+                mkdir('jpm-sources/' + Dir)
         if sys.argv[1] == "install" or sys.argv[1] == "quietinstall":
             if platform.system() == 'Linux':
                 system("sudo cp -r jpm-sources/ /usr/local/bin")
             elif platform.system() == 'Darwin':
                 system("sudo cp -r jpm-sources/ /usr/local/bin/jpm-sources")
             else:
-                print("Unsuported os!")
+                print("Unsupported os!")
             system("sudo cp jpm /usr/local/bin")
             system("sudo chmod +x /usr/local/bin/jpm")
             if sys.argv[1] == "install":
-                print("JPM installed sucsessfully! Type jpm in terminal for help.")
+                print("JPM installed successfully! Type jpm in terminal for help.")
 
         elif sys.argv[1] == "dependencies":
 
@@ -89,7 +93,9 @@ if __name__ == "__main__":
             elif platform.system() == 'Darwin':
 
                 print("Checking for dependencies:")
-                check_for_package("brew", "brew", '/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"')
+                check_for_package("brew", "brew",
+                                  '/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install'
+                                  '/master/install)"')
                 check_for_package("python3", "python3", "brew install python3")
                 system("python3 checkforwget.py")
             else:

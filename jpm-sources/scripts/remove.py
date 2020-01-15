@@ -1,12 +1,13 @@
 import json
 
-from globals import *
 from scripts.verify import *
+
 
 def fail(text):
     print_debug("FAILED")
     print_error(text)
     abort()
+
 
 def remove(package_names, force=False):
     print_debug("Verifying packages ... ", end='', flush=False)
@@ -21,7 +22,7 @@ def remove(package_names, force=False):
                 fail("Package " + package + " does not have a valid json file.")
             elif metadata['type'] == 'dependency' and not force:
                 fail("Package " + package + " is a dependency and is probably needed by other packages. "
-                                                     "If you want to remove unused dependencies type 'jpm cleanup'.")
+                                            "If you want to remove unused dependencies type 'jpm cleanup'.")
     print_debug("DONE")
     print_normal("Following packages will be removed:")
     list_packages_print(package_names)

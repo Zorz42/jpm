@@ -44,7 +44,8 @@ def cleanup():
     else:
         remove(unused_packages, True)
     if to_remove:
-        print_normal("Following files/directories are not valid packages and thus do not belong here, so they will be deleted:")
+        print_normal(
+            "Following files/directories are not valid packages and thus do not belong here, so they will be deleted:")
         list_packages_print(to_remove)
         if choice():
             for file in to_remove:

@@ -17,7 +17,7 @@ def install(package_names):
     for package in package_names:
         if not check_if_package_exists(package):
             print_error("Package " + package + " does not exist.")
-            exit(1)
+            jpm_exit(1)
         print_debug("Building dependency tree for " + package)
         if not os.path.isfile(installdir + package + ".json"):
             build_dep_tree(package)

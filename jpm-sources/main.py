@@ -1,8 +1,8 @@
-import sys
+from globals import *
 
 if sys.version_info.major != 3:
     print_error("Must be using Python3")
-    exit(1)
+    jpm_exit(1)
 
 from scripts.install import *
 from scripts.cleanup import *
@@ -17,12 +17,15 @@ if len(sys.argv) == 1:
     print_normal("    jpm remove [packages]  - remove packages")
     print_normal("    jpm list               - list all installed packages")
     print_normal("    jpm cleanup            - clean up unused dependencies and invalid files")
-    print_normal("    jpm upgrade [argument] - upgrade to specified version if not specified, upgrade to latest if exists, master is latest, but unstable version")
+    print_normal(
+        "jpm upgrade [argument] - upgrade to specified version if not specified, upgrade to latest if exists, "
+        "master is latest, but unstable version")
     print_normal("    jpm repair             - if your jpm is throwing error try this. You might get rid of them.")
-    exit(0)
+    jpm_exit(0)
 
 arg = sys.argv[1]
 args = sys.argv[2:]
+
 
 # check or jpm update (upgrade)
 def check_for_jpm_update():
@@ -32,10 +35,12 @@ def check_for_jpm_update():
     else:
         print_debug("JPM is up to date.")
 
+
 def check_connection():
     if not check_internet_connection():
         print_error("Cannot connect to the internet (zorz.si)")
-        exit(1)
+        jpm_exit(1)
+
 
 if arg == "install":
     check_connection()
@@ -58,4 +63,4 @@ elif arg == "repair":
     repair()
 else:
     print_error("Unknown argument: " + arg)
-    exit(1)
+    jpm_exit(1)
