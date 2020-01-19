@@ -18,7 +18,7 @@ def main():
         print_normal("    jpm list               - list all installed packages")
         print_normal("    jpm cleanup            - clean up unused dependencies and invalid files")
         print_normal(
-            "jpm upgrade [argument] - upgrade to specified version if not specified, upgrade to latest if exists, "
+            "    jpm upgrade [argument] - upgrade to specified version if not specified, upgrade to latest if exists, "
             "master is latest, but unstable version")
         print_normal("    jpm repair             - if your jpm is throwing error try this. You might get rid of them.")
         print_normal("    jpm listall            - list all packages in repositories")
