@@ -23,6 +23,7 @@ def main():
         print_normal("    jpm repair             - if your jpm is throwing error try this. You might get rid of them.")
         print_normal("    jpm listall            - list all packages in repositories")
         print_normal("    jpm version            - show current version of jpm")
+        print_normal("    jpm updatedatabase     - update database")
         jpm_exit(0)
 
     arg = argv[1]
@@ -75,6 +76,9 @@ def main():
         listall()
     elif arg == "version":
         print_normal("Current version: " + version)
+    elif arg == "updatedatabase":
+        from scripts.updatedatabase import updatedatabase
+        updatedatabase()
     else:
         print_error("Unknown argument: " + arg)
         jpm_exit(1)
