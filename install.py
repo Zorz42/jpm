@@ -60,8 +60,8 @@ if __name__ == "__main__":
             else:
                 print("Unsupported os!")
             system("sudo cp jpm /usr/local/bin")
-            system("jpm repair")
-            system("jpm updatedatabase")
+            system("sudo jpm repair")
+            system("sudo jpm updatedatabase")
             if sys.argv[1] == "install":
                 print("JPM installed successfully! Type jpm in terminal for help.")
 
