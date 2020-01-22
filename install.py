@@ -53,7 +53,6 @@ if __name__ == "__main__":
             if not path.isdir("jpm-sources/" + Dir):
                 mkdir('jpm-sources/' + Dir)
         if sys.argv[1] == "install" or sys.argv[1] == "quietinstall":
-            print("test")
             if platform.system() == 'Linux':
                 system("sudo cp -r jpm-sources/ /usr/local/bin")
             elif platform.system() == 'Darwin':
