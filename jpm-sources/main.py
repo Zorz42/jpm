@@ -78,6 +78,9 @@ def main():
         print_normal("Current version: " + version)
     elif arg == "updatedatabase":
         from scripts.updatedatabase import updatedatabase
+        from scripts.checkforinternetconnection import check_connection
+        
+        check_connection()
         updatedatabase()
     else:
         print_error("Unknown argument: " + arg)
