@@ -53,7 +53,7 @@ def forceupgrade(version_to_install):
     print_normal("DONE")
     print_normal("Installing jpm...")
     system("cd " + currentdir + "jpm-" + str(
-        version_to_install) + " && cp -r jpm-sources /usr/local/bin/")
+        version_to_install) + " && cp -r jpm-sources /usr/local/share/")
     print_debug("Cleaning up ... ", end='', flush=True)
     remove(currentdir + "newerjpm.zip")
     rmtree(currentdir + "jpm-" + str(version_to_install))
