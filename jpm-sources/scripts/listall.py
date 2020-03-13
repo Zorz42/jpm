@@ -3,7 +3,6 @@ from bs4 import BeautifulSoup
 from urllib import request
 
 
-
 def list_url_dir(url):
     page = request.urlopen(url)
     soup = BeautifulSoup(page, 'html.parser')

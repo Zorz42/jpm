@@ -8,7 +8,8 @@ install_directory = path.expanduser("~") + "/.local/share/"
 
 def repair():
     print_normal("Repairing jpm...")
-    system("sudo chmod +rw " + install_directory + "/jpm-sources " + install_directory + "jpm-sources/* " + install_directory + "jpm-sources/*/*")
+    system("sudo chmod +rw " + install_directory + "/jpm-sources " + install_directory + "jpm-sources/* " +
+           install_directory + "jpm-sources/*/*")
     system(
         "sudo chown " + getuser() + " " + install_directory + "jpm-sources " + install_directory + "jpm-sources/* " +
                                     install_directory + "jpm-sources/*/*")
