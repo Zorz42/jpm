@@ -1,6 +1,5 @@
-import bs4
-from scripts.listall import list_url_dir
 from globals import print_normal, print_debug
+from scripts.listall import list_url_dir
 
 
 def updatedatabase():
