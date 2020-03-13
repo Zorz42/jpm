@@ -13,6 +13,7 @@ from version import version
 
 newestversion = None
 
+install_directory = path.expanduser("~") + "/.local/share/"
 
 def check_for_upgrade():
     print_debug("Checking for upgrade ... ", end='', flush=True)
@@ -53,7 +54,7 @@ def forceupgrade(version_to_install):
     print_normal("DONE")
     print_normal("Installing jpm...")
     system("cd " + currentdir + "jpm-" + str(
-        version_to_install) + " && cp -r jpm-sources ~/.local/share/")
+        version_to_install) + " && cp -r jpm-sources " + install_directory)
     print_debug("Cleaning up ... ", end='', flush=True)
     remove(currentdir + "newerjpm.zip")
     rmtree(currentdir + "jpm-" + str(version_to_install))
