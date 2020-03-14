@@ -1,1 +1,6 @@
-python3 ~/.local/share/jpm-sources/main.py "$@"
+if [[ -f "~/.local/share/jpm-sources" ]]
+then
+    python3 ~/.local/share/jpm-sources/main.py "$@"
+else
+    echo Installation for $USER not found!
+fi
