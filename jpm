@@ -1,3 +1,5 @@
+#!/bin/bash
+
 if [[ -f "$HOME/.local/share/jpm-sources/main.py" ]];
 then
     python3 ~/.local/share/jpm-sources/main.py "$@"
