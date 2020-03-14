@@ -14,7 +14,7 @@ from version import version
 newestversion = None
 newestjaclangversion = None
 
-install_directory = path.expanduser("~") + "/.local/share/"
+install_directory = "/usr/local/share/"
 
 
 def check_for_upgrade():
