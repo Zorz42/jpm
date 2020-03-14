@@ -1,6 +1,8 @@
-from globals import print_normal, list_packages_print
-from bs4 import BeautifulSoup
 from urllib import request
+
+from bs4 import BeautifulSoup
+
+from globals import print_normal, list_packages_print
 
 
 def list_url_dir(url):

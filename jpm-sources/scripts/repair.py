@@ -12,7 +12,7 @@ def repair():
            install_directory + "jpm-sources/*/*")
     system(
         "sudo chown " + getuser() + " " + install_directory + "jpm-sources " + install_directory + "jpm-sources/* " +
-                                    install_directory + "jpm-sources/*/*")
+        install_directory + "jpm-sources/*/*")
     system("sudo chmod +rw ~/.local/share/jaclang-data ~/.local/share/jaclang-data/*")
     system(
         "sudo chown " + getuser() + " " + install_directory + "/jaclang-data " + install_directory + "jaclang-data/*")

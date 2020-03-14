@@ -1,7 +1,7 @@
 from sys import version_info, argv
 
-from version import version
 from globals import print_normal, print_debug, print_error, jpm_exit, currentdir
+from version import version
 
 
 def main():
