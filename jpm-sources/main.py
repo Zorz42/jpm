@@ -18,7 +18,6 @@ def main():
         print_normal("    jpm list               - list all installed packages")
         print_normal("    jpm cleanup            - clean up unused dependencies and invalid files")
         print_normal("    jpm upgrade            - upgrade to latest stable version")
-        print_normal("    jpm repair             - if your jpm is throwing error try this. You might get rid of them.")
         print_normal("    jpm listall            - list all packages in repositories")
         print_normal("    jpm version            - show current version of jpm")
         print_normal("    jpm updatedatabase     - update database")
@@ -61,10 +60,6 @@ def main():
 
         check_connection()
         upgrade()
-    elif arg == "repair":
-        from scripts.repair import repair
-
-        repair()
     elif arg == "listall":
         from scripts.listall import listall
         from scripts.upgrader import check_for_jpm_update
