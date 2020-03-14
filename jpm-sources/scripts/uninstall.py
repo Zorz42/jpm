@@ -1,7 +1,9 @@
-from globals import choice, print_normal, print_debug
 from os import system, path
-from subprocess import check_output
 from platform import system as sys
+from subprocess import check_output
+
+from globals import choice, print_normal, print_debug
+
 
 def list_users():
     return check_output(["cut", "-d:", "-f1", "/etc/passwd"]).decode("utf-8").split("\n")
@@ -12,8 +14,10 @@ def get_user_home_dir(user):
         return "/"
     return check_output(["getent", "passwd", user]).decode("utf-8").split(":")[5]
 
+
 def get_home_dirs():
     return check_output(["perl", "-le", "while(@e=getpwent){print$e[7]}"]).decode("utf-8").split("\n")
+
 
 def uninstall():
     print_normal("By running this you will uninstall all jac related software on this computer!")

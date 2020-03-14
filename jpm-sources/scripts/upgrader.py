@@ -1,11 +1,11 @@
 from os import path, remove, system
 from shutil import rmtree
-from urllib import error
-from zipfile import ZipFile
-from wget import download
 from subprocess import check_output
+from zipfile import ZipFile
 
-from globals import print_debug, print_normal, print_error, currentdir, jpm_exit
+from wget import download
+
+from globals import print_debug, print_normal, currentdir
 from scripts.checkforinternetconnection import check_internet_connection
 from scripts.cleanup import cleanup
 from scripts.install_bar import install_bar
