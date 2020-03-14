@@ -22,7 +22,7 @@ def check_for_upgrade():
     if check_internet_connection():
         if path.isfile(currentdir + "newestversion.txt"):
             remove(currentdir + "newestversion.txt")
-        download("https://raw.githubusercontent.com/Zorz42/jpm/master/jpm-sources/version.py", currentdir +
+        download("https://raw.githubusercontent.com/Zorz42/jpm/stable/jpm-sources/version.py", currentdir +
                  "newestversion.txt", bar=None)
     with open(currentdir + "newestversion.txt") as newest_version:
         global newestversion
@@ -37,7 +37,7 @@ def check_for_jaclang_upgrade():
     if check_internet_connection():
         if path.isfile(currentdir + "newestjaclangversion.txt"):
             remove(currentdir + "newestjaclangversion.txt")
-        download("https://raw.githubusercontent.com/Zorz42/jaclang/master/include/version.h", currentdir +
+        download("https://raw.githubusercontent.com/Zorz42/jaclang/stable/include/version.h", currentdir +
                  "newestjaclangversion.txt", bar=None)
     with open(currentdir + "newestjaclangversion.txt") as newest_version:
         global newestjaclangversion
@@ -45,37 +45,56 @@ def check_for_jaclang_upgrade():
                                 if len(line.split(" ")) == 3]
         newestjaclangversion = [i[1:len(i) - 1] for i in newestjaclangversion]
         newestjaclangversion = "BETA " + ".".join(newestjaclangversion)
-        currentjaclangversion = check_output(["jaclang", "--version"])
-        currentjaclangversion = currentjaclangversion[:len(currentjaclangversion)-1]
+        try:
+            currentjaclangversion = check_output(["jaclang", "--version"])
+        except FileNotFoundError:
+            currentjaclangversion = b"nonexistent"
+        currentjaclangversion = currentjaclangversion[:len(currentjaclangversion) - 1]
         currentjaclangversion = currentjaclangversion.decode("utf-8")
         print_debug("DONE")
         return str(newestjaclangversion) != str(currentjaclangversion)
 
 
-def forceupgrade(version_to_install):
-    if version_to_install == "vmaster":
-        version_to_install = "master"
+def upgrade_jpm():
     print_normal("Downloading jpm:")
     if path.isfile(currentdir + "newerjpm.zip"):
         remove(currentdir + "newerjpm.zip")
-    try:
-        download("https://github.com/Zorz42/jpm/archive/" + str(version_to_install) + ".zip",
-                 currentdir + "newerjpm.zip",
-                 bar=install_bar)
-    except error.HTTPError:
-        print_error("Non-existent version was prompted to install.")
-        jpm_exit(0)
-    if version_to_install[0] == 'v':
-        version_to_install = version_to_install[1:]
+    download("https://github.com/Zorz42/jpm/archive/stable.zip",
+             currentdir + "newerjpm.zip",
+             bar=install_bar)
     print_normal("\nExtracting jpm ... ", end='', flush=True)
     with ZipFile(currentdir + "newerjpm.zip", 'r') as zip_ref:
         zip_ref.extractall(currentdir)
     print_normal("DONE")
     print_normal("Installing jpm...")
-    system("cd " + currentdir + "jpm-" + str(version_to_install) + " && cp -r jpm-sources " + install_directory)
+    system("cd " + currentdir + "jpm-stable && cp -r jpm-sources " + install_directory)
+
     print_debug("Cleaning up ... ", end='', flush=True)
     remove(currentdir + "newerjpm.zip")
-    rmtree(currentdir + "jpm-" + str(version_to_install))
+    rmtree(currentdir + "jpm-stable")
+    print_debug("DONE")
+    cleanup()
+
+
+def upgrade_jaclang():
+    print_normal("Downloading jaclang:")
+    if path.isfile(currentdir + "newerjaclang.zip"):
+        remove(currentdir + "newerjaclang.zip")
+    download("https://github.com/Zorz42/jaclang/archive/stable.zip",
+             currentdir + "newerjaclang.zip",
+             bar=install_bar)
+
+    print_normal("\nExtracting jpm ... ", end='', flush=True)
+    with ZipFile(currentdir + "newerjaclang.zip", 'r') as zip_ref:
+        zip_ref.extractall(currentdir)
+    print_normal("DONE")
+    print_normal("Installing jaclang...")
+    system("cd " + currentdir + "jaclang-stable && make onlyjaclang")
+    print_normal()
+
+    print_debug("Cleaning up ... ", end='', flush=True)
+    remove(currentdir + "newerjaclang.zip")
+    rmtree(currentdir + "jaclang-stable")
     print_debug("DONE")
     cleanup()
 
@@ -84,11 +103,11 @@ def upgrade():
     if not check_for_upgrade():
         print_normal("JPM is up to date.")
     else:
-        forceupgrade("v" + newestversion)
+        upgrade_jpm()
     if not check_for_jaclang_upgrade():
         print_normal("Jaclang is up to date.")
-    # else:
-    # forceupgrade("v" + newestversion)
+    else:
+        upgrade_jaclang()
 
 
 # check or jpm update (upgrade)

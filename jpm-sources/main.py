@@ -17,13 +17,12 @@ def main():
         print_normal("    jpm remove [packages]  - remove packages")
         print_normal("    jpm list               - list all installed packages")
         print_normal("    jpm cleanup            - clean up unused dependencies and invalid files")
-        print_normal(
-            "    jpm upgrade [argument] - upgrade to specified version if not specified, upgrade to latest if exists, "
-            "master is latest, but unstable version")
+        print_normal("    jpm upgrade            - upgrade to latest stable version")
         print_normal("    jpm repair             - if your jpm is throwing error try this. You might get rid of them.")
         print_normal("    jpm listall            - list all packages in repositories")
         print_normal("    jpm version            - show current version of jpm")
         print_normal("    jpm updatedatabase     - update database")
+        print_normal("    jpm uninstall          - uninstall jpm and any other software in his family, like jaclang")
         jpm_exit(0)
 
     arg = argv[1]
@@ -51,11 +50,11 @@ def main():
 
         cleanup()
     elif arg == "upgrade" and len(args) > 0:
-        from scripts.upgrader import forceupgrade
+        from scripts.upgrader import upgrade_jpm
         from scripts.checkforinternetconnection import check_connection
 
         check_connection()
-        forceupgrade("v" + args[0])
+        upgrade_jpm()
     elif arg == "upgrade":
         from scripts.upgrader import upgrade
         from scripts.checkforinternetconnection import check_connection
@@ -79,12 +78,17 @@ def main():
     elif arg == "updatedatabase":
         from scripts.updatedatabase import updatedatabase
         from scripts.checkforinternetconnection import check_connection
-        
+
         check_connection()
         updatedatabase()
+    elif arg == "uninstall":
+        from scripts.uninstall import uninstall
+
+        uninstall()
     else:
         print_error("Unknown argument: " + arg)
         jpm_exit(1)
 
 
-main()
+if __name__ == "__main__":
+    main()
