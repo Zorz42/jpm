@@ -67,7 +67,9 @@ def upgrade_jpm():
         zip_ref.extractall(currentdir)
     print_normal("DONE")
     print_normal("Installing jpm...")
-
+    for Dir in dirs:
+        if not path.isdir("../jpm-stable/jpm-sources/" + Dir):
+            mkdir('../jpm-stable/jpm-sources/' + Dir)
     system("cd " + currentdir + "jpm-stable && cp -r jpm-sources " + install_directory)
 
     print_debug("Cleaning up ... ", end='', flush=True)
@@ -91,9 +93,6 @@ def upgrade_jaclang():
     print_normal("DONE")
     print_normal("Installing jaclang...")
     dirs = ['to_install', 'librarysources', 'metadatas']
-    for Dir in dirs:
-        if not path.isdir("jpm-stable/jpm-sources/" + Dir):
-            mkdir('jpm-stable/jpm-sources/' + Dir)
     system("cd " + currentdir + "jaclang-stable && make onlyjaclang")
     print_normal()
 
