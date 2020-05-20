@@ -17,7 +17,7 @@ def main():
         print_normal("    jpm remove [packages]  - remove packages")
         print_normal("    jpm list               - list all installed packages")
         print_normal("    jpm cleanup            - clean up unused dependencies and invalid files")
-        print_normal("    jpm upgrade            - upgrade to latest stable version")
+        print_normal("    jpm upgrade            - upgrade jaclang to latest stable version")
         print_normal("    jpm listall            - list all packages in repositories")
         print_normal("    jpm version            - show current version of jpm")
         print_normal("    jpm updatedatabase     - update database")
