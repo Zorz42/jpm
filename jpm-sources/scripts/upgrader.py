@@ -41,7 +41,7 @@ def check_for_jaclang_upgrade():
 
 
 def upgrade_jaclang():
-    newestjaclangversionprocessed = "beta-" + newestjaclangversion.split(" ")[2]
+    newestjaclangversionprocessed = "beta-" + newestjaclangversion.split(" ")[1]
     print_normal("Downloading jaclang:")
     if path.isfile(currentdir + "newerjaclang.zip"):
         remove(currentdir + "newerjaclang.zip")
