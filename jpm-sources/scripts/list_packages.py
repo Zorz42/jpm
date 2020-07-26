@@ -1,7 +1,7 @@
 from json import load
 from os import listdir
 
-from globals import print_normal, list_packages_print, metadatadir
+from globals import print_normal, list_packages_print
 from scripts.verify import verify_package_json
 
 

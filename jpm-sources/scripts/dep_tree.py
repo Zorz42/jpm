@@ -6,20 +6,22 @@ from globals import print_error, jpm_exit, installdir
 from scripts.verify import verify_package_json
 
 
+def quit_incomplete(package_name):
+    print_error(f"Package {package_name} is incomplete or damaged and therefore cannot be downloaded!")
+    jpm_exit(0)
+
+
 def build_dep_tree(package_name):
-    dependency_list = []
-    download("https://jaclang.zorz.si/main-repository/metadatas/" + package_name + ".json",
+    download(f"https://jaclang.zorz.si/main-repository/{package_name}/Info.json",
              installdir + package_name + ".json", bar=None)
-    with open(installdir + package_name + ".json") as metafile:
+    with open(installdir + package_name + ".json") as info_file:
         try:
-            metadata = load(metafile)
+            metadata = load(info_file)
         except decoder.JSONDecodeError:
-            print_error("Package " + package_name + " is not valid!")
-            jpm_exit(0)
-        if 'dependencies' in metadata.keys():
-            dependency_list = metadata['dependencies']
+            quit_incomplete(package_name)
         if not verify_package_json(metadata, package_name):
-            print_error("Package " + package_name + " is not valid!")
-            jpm_exit(0)
+            quit_incomplete(package_name)
+
+        dependency_list = metadata['Dependencies']
     for dependency in dependency_list:
         build_dep_tree(dependency)

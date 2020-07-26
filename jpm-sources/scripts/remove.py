@@ -1,7 +1,7 @@
 from json import load
 from os import path, remove
 
-from globals import print_error, print_normal, abort, metadatadir, choice, list_packages_print, print_debug
+from globals import print_error, print_normal, abort, choice, list_packages_print, print_debug
 from scripts.verify import verify_package_json
 
 

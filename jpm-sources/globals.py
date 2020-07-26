@@ -2,20 +2,20 @@ from os import path
 from sys import argv
 
 currentdir = path.split(path.abspath(path.realpath(argv[0])))[0] + '/'
-libdir = currentdir + "libsources/"
-metadatadir = currentdir + "metadatas/"
-installdir = currentdir + "to_install/"
+libdir = "/usr/local/share/jaclang-libraries/"
+datadir = "/usr/local/share/jaclang-data/"
+installdir = currentdir + "to-install/"
 
 
 def choice():
-    yesOptions = ["Y", "YES"]
-    noOptions = ["N", "NO"]
+    yes_options = ["Y", "YES"]
+    no_options = ["N", "NO"]
     while True:
         print_normal("Proceed?[y,n]:", end='', flush=True)
         answer = input()
-        if answer.upper() in yesOptions:
+        if answer.upper() in yes_options:
             return True
-        elif answer.upper() in noOptions:
+        elif answer.upper() in no_options:
             return False
 
 
@@ -31,15 +31,15 @@ def abort():
 
 
 def print_debug(text="", end="\n", flush=False):
-    print("\x1b[1;30m" + text, end=end, flush=flush)
+    print("\x1b[1;30m" + str(text), end=end, flush=flush)
 
 
 def print_normal(text="", end="\n", flush=False):
-    print("\x1b[0m" + text, end=end, flush=flush)
+    print("\x1b[0m" + str(text), end=end, flush=flush)
 
 
 def print_error(text="", end="\n", flush=False):
-    print("\x1b[0;31m" + text, end=end, flush=flush)
+    print("\x1b[0;31m" + str(text), end=end, flush=flush)
 
 
 def jpm_exit(exit_code):

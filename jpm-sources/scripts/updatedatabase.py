@@ -7,10 +7,10 @@ install_directory = "/usr/local/share/"
 def updatedatabase():
     print_normal("Updating database...")
     print_debug("Getting data ... ", end='', flush=True)
-    packages = list_url_dir("https://jaclang.zorz.si/main-repository/metadatas/")
+    packages = list_url_dir("https://jaclang.zorz.si/main-repository/")
     print_debug("DONE")
     print_debug("Writing data ... ", end='', flush=True)
-    with open(install_directory + "jaclang-data/jpm-database.txt", "w") as database:
-        database.write("\n".join(packages))
+    with open(f"{install_directory}jaclang-data/jpm-database.txt", "w") as database:
+        database.write("\n".join(packages) + "\n")
     print_debug("DONE")
     print_normal(end='')

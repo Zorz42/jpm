@@ -2,7 +2,7 @@ from json import load
 from os import path, remove
 from shutil import rmtree
 
-from globals import print_debug, print_normal, metadatadir, abort, list_packages_print, choice
+from globals import print_debug, print_normal, abort, list_packages_print, choice
 from scripts.list_packages import list_installed_packages
 from scripts.remove import remove_packages
 
