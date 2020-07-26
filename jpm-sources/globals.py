@@ -11,7 +11,7 @@ def choice():
     yes_options = ["Y", "YES"]
     no_options = ["N", "NO"]
     while True:
-        print_normal("Proceed?[y,n]:", end='', flush=True)
+        print("Proceed?[y,n]: ", end='', flush=True)
         answer = input()
         if answer.upper() in yes_options:
             return True
@@ -21,8 +21,8 @@ def choice():
 
 def list_packages_print(package_list):
     for package in package_list:
-        print_normal(package, end='     ')
-    print_normal()
+        print(package, end='     ')
+    print()
 
 
 def abort():
@@ -30,18 +30,10 @@ def abort():
     jpm_exit(0)
 
 
-def print_debug(text="", end="\n", flush=False):
-    print("\x1b[1;30m" + str(text), end=end, flush=flush)
-
-
-def print_normal(text="", end="\n", flush=False):
-    print("\x1b[0m" + str(text), end=end, flush=flush)
-
-
 def print_error(text="", end="\n", flush=False):
     print("\x1b[0;31m" + str(text), end=end, flush=flush)
 
 
 def jpm_exit(exit_code):
-    print_normal()
+    print("\x1b[0m")
     exit(exit_code)
