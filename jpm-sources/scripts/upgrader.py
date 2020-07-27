@@ -6,9 +6,8 @@ from zipfile import ZipFile
 from wget import download
 
 from globals import currentdir, datadir
-from scripts.checkforinternetconnection import check_internet_connection
+from scripts.checkForRepositoryConnection import checkRepConnection
 from scripts.cleanup import cleanup
-from scripts.install_bar import install_bar
 
 newest_jaclang_version = ""
 
@@ -16,7 +15,7 @@ install_directory = "/usr/local/share/"
 
 
 def check_for_jaclang_upgrade():
-    if check_internet_connection():
+    if checkRepConnection():
         if path.isfile(datadir + "newestjaclangversion.txt"):
             remove(datadir + "newestjaclangversion.txt")
         download("https://raw.githubusercontent.com/Zorz42/jaclang/master/include/version.h", datadir +
@@ -44,7 +43,7 @@ def upgrade_jaclang():
     if path.isfile(currentdir + "newerjaclang.zip"):
         remove(currentdir + "newerjaclang.zip")
     download(f"https://github.com/Zorz42/jaclang/archive/{newest_jaclang_version_processed}.zip",
-             currentdir + "newerjaclang.zip", bar=install_bar)
+             currentdir + "newerjaclang.zip", bar=None)
 
     print("\nExtracting jaclang ... ", end='', flush=True)
     with ZipFile(currentdir + "newerjaclang.zip", 'r') as zip_ref:

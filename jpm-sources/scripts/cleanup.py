@@ -1,8 +1,8 @@
 from json import load
 from os import remove
 
-from globals import abort, list_packages_print, choice, libdir
-from scripts.list_packages import list_installed_packages
+from globals import choice, libdir
+from scripts.listPackages import list_installed_packages, print_packages
 from scripts.remove import remove_packages
 
 used_packages = []
@@ -42,10 +42,10 @@ def cleanup():
 
     if to_remove:
         print("Following files/directories do not belong into jaclang-libraries and will be removed:")
-        list_packages_print(to_remove)
+        print_packages(to_remove)
         if choice():
             for file in to_remove:
                 remove(libdir + file)
             print(f"Removed {len(to_remove)} files/directories.")
         else:
-            abort()
+            exit(0)

@@ -1,27 +1,25 @@
 from json import load
-from os import path, remove
+from os import path
 from shutil import rmtree
 
-from globals import print_error, abort, choice, list_packages_print, libdir
+from globals import throw_error, choice, libdir
+from scripts.listPackages import print_packages
 
 
 def remove_packages(package_names, force=False):
+    if not package_names:
+        throw_error("Cannot remove nothing!")
     for package in package_names:
         if not path.isdir(libdir + package):
-            print_error(f"Package {package} is not installed.")
-            abort()
+            throw_error(f"Package {package} is not installed.")
         with open(f"{libdir}{package}/Info.json") as file:
             metadata = load(file)
-            if metadata['Type'] == 'Dependency' and not force:
-                print_error(f"Package {package} is a dependency and is probably needed by other packages. "
-                            "If you want to remove unused dependencies type 'jpm cleanup'.")
-                abort()
+            if not force and metadata['Type'] == "Dependency":
+                throw_error(f"Package {package} is needed by other packages.")
 
     print("Following packages will be removed:")
-    list_packages_print(package_names)
+    print_packages(package_names)
     if choice():
         for package_name in package_names:
             rmtree(libdir + package_name)
-    else:
-        abort()
-    print(f"Removed {len(package_names)} packages.")
+        print(f"Removed {len(package_names)} packages.")

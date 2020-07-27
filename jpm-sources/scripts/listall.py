@@ -1,8 +1,8 @@
 from urllib import request
-
 from bs4 import BeautifulSoup
 
-from globals import list_packages_print
+from globals import main_repository
+from scripts.listPackages import print_packages
 
 
 def list_url_dir(url):
@@ -13,4 +13,4 @@ def list_url_dir(url):
 
 def listall():
     print("Listing all installable packages:")
-    list_packages_print(list_url_dir("https://jaclang.zorz.si/main-repository/"))
+    print_packages(list_url_dir(main_repository))

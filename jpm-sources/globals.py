@@ -5,6 +5,7 @@ currentdir = path.split(path.abspath(path.realpath(argv[0])))[0] + '/'
 libdir = "/usr/local/share/jaclang-libraries/"
 datadir = "/usr/local/share/jaclang-data/"
 installdir = currentdir + "to-install/"
+main_repository = "https://jaclang.zorz.si/main-repository/"
 
 
 def choice():
@@ -19,21 +20,6 @@ def choice():
             return False
 
 
-def list_packages_print(package_list):
-    for package in package_list:
-        print(package, end='     ')
-    print()
-
-
-def abort():
-    print_error("Aborting")
-    jpm_exit(0)
-
-
-def print_error(text="", end="\n", flush=False):
-    print("\x1b[0;31m" + str(text), end=end, flush=flush)
-
-
-def jpm_exit(exit_code):
-    print("\x1b[0m")
-    exit(exit_code)
+def throw_error(text="", end="\n", flush=False):
+    print(f"\x1b[0;31m{text}\x1b[0m", end=end, flush=flush)
+    exit(0)

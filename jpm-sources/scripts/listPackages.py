@@ -1,8 +1,12 @@
-from json import load
 from os import listdir, path
 
-from globals import list_packages_print, libdir
-from scripts.verify import verify_package_json
+from globals import libdir
+
+
+def print_packages(package_list):
+    for package in package_list:
+        print(package, end='     ')
+    print()
 
 
 def list_installed_packages():
@@ -24,5 +28,5 @@ def list_packages():
         print(package)
     if to_remove:
         print("Following files/directories are invalid json files and do not belong here:")
-        list_packages_print(to_remove)
+        print_packages(to_remove)
         print("Type 'jpm cleanup' to remove them.")
