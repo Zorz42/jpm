@@ -11,7 +11,7 @@ from scripts.listPackages import listInstalledPackages, printPackages
 from scripts.verify import verifyPackageJson
 
 
-def buildDepTree(package_name):
+def buildDepTree(package_name, dependency=False):
     if path.isfile(f"{installdir}{package_name}.json"):
         return True
     if head(f"{main_repository}{package_name}/Latest.json").status_code != codes.ok:
@@ -36,13 +36,17 @@ def buildDepTree(package_name):
     if current_jaclang_version[0] != supported_version[0] or current_jaclang_version[1] < supported_version[1]:
         throwError(f"Package {package_name} is not compatible with your current version of jaclang!")
 
-    for dependency in info["Dependencies"]:
-        if buildDepTree(dependency):
+    for dependency in info["Dependencies"].copy():
+        if buildDepTree(dependency, dependency=True):
             info["Dependencies"].remove(dependency)
+
+    del info["Supported Version"]
+    info["Type"] = "Dependency" if dependency else "Package"
 
     with open(f"{installdir}{package_name}.json", "w") as info_file:
         info_file.seek(0)
-        dump(info, info_file)
+        dump(info, info_file, indent=4)
+        info_file.write("\n")
         info_file.truncate()
 
     return False
@@ -75,5 +79,5 @@ def install(package_names):
         printPackages(to_install)
         if choice():
             for package in to_install:
-                installPackage(package, package not in package_names)
+                installPackage(package)
     clearDirectory(installdir)

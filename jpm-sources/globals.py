@@ -23,7 +23,7 @@ def choice():
 
 def throwError(text="", end="\n", flush=False):
     print(f"\x1b[0;31m{text}\x1b[0m", end=end, flush=flush)
-    exit(0)
+    exit()
 
 
 def removeFileIfExists(file_path):

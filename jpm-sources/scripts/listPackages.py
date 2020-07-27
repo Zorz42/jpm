@@ -22,10 +22,12 @@ def listInstalledPackages():
 
 
 def listPackages():
-    print("Listing all installed packages:")
     installed_packages, to_remove = listInstalledPackages()
-    for package in installed_packages:
-        print(package)
+    if installed_packages:
+        print(f"Listing {len(installed_packages)} installed packages:")
+        printPackages(installed_packages)
+    else:
+        print(f"No packages installed.")
     if to_remove:
         print("Following files/directories do not belong into the jaclang-libraries directory:")
         printPackages(to_remove)

@@ -15,12 +15,12 @@ def removePackages(package_names: list, force=False):
             throwError(f"Package {package} is not installed.")
 
     unused_packages, _, dependencies = checkForUnusedPackages(package_names)
-    package_names += unused_packages
 
-    """if not force:
+    if not force:
         for dependency in dependencies:
             if dependency in package_names:
-                package_names.remove(dependency)"""
+                package_names.remove(dependency)
+    package_names += unused_packages
 
     if not package_names:
         print("Nothing to remove!")

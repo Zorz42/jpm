@@ -20,7 +20,7 @@ def main():
         print("    jpm version            - show current version of jpm")
         print("    jpm updatedatabase     - update database")
         print("    jpm uninstall          - uninstall jpm and any other software in his family, like jaclang")
-        exit(0)
+        return
 
     arg = argv[1]
     args = argv[2:]
@@ -58,7 +58,7 @@ def main():
         checkConnection()
         upgrade()
     elif arg == "listall":
-        from scripts.listall import listall
+        from scripts.listAll import listall
         from scripts.upgrader import checkForJaclangUpdate
         from scripts.checkForRepositoryConnection import checkConnection
 

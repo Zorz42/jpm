@@ -1,5 +1,5 @@
 from globals import main_repository
-from scripts.listall import listUrlDir
+from scripts.listAll import listUrlDir
 
 install_directory = "/usr/local/share/"
 
