@@ -1,13 +1,13 @@
 from sys import version_info, argv
 
-from globals import throw_error
+from globals import throwError
 
 version = "1.5.4"
 
 
 def main():
     if version_info.major != 3:
-        throw_error("Must be using Python3")
+        throwError("Must be using Python3")
 
     if len(argv) == 1:
         print("JPM help:")
@@ -26,32 +26,31 @@ def main():
     args = argv[2:]
 
     if arg == "install":
-        from scripts.upgrader import check_for_jpm_update
+        from scripts.upgrader import checkForJaclangUpdate
         from scripts.install import install
         from scripts.checkForRepositoryConnection import checkConnection
 
         checkConnection()
-        check_for_jpm_update()
+        checkForJaclangUpdate()
         install(args)
     elif arg == "remove":
-        from scripts.cleanup import cleanup, remove_packages
+        from scripts.remove import removePackages
 
-        remove_packages(args)
-        cleanup()
+        removePackages(args)
     elif arg == "list":
-        from scripts.listPackages import list_packages
+        from scripts.listPackages import listPackages
 
-        list_packages()
+        listPackages()
     elif arg == "cleanup":
         from scripts.cleanup import cleanup
 
         cleanup()
     elif arg == "upgrade" and len(args) > 0:
-        from scripts.upgrader import upgrade_jaclang
+        from scripts.upgrader import upgradeJaclang
         from scripts.checkForRepositoryConnection import checkConnection
 
         checkConnection()
-        upgrade_jaclang()
+        upgradeJaclang()
     elif arg == "upgrade":
         from scripts.upgrader import upgrade
         from scripts.checkForRepositoryConnection import checkConnection
@@ -60,16 +59,16 @@ def main():
         upgrade()
     elif arg == "listall":
         from scripts.listall import listall
-        from scripts.upgrader import check_for_jpm_update
+        from scripts.upgrader import checkForJaclangUpdate
         from scripts.checkForRepositoryConnection import checkConnection
 
         checkConnection()
-        check_for_jpm_update()
+        checkForJaclangUpdate()
         listall()
     elif arg == "version":
         print("Current version: " + version)
     elif arg == "updatedatabase":
-        from scripts.updatedatabase import updatedatabase
+        from scripts.updateDatabase import updatedatabase
         from scripts.checkForRepositoryConnection import checkConnection
 
         checkConnection()
@@ -79,7 +78,7 @@ def main():
 
         uninstall()
     else:
-        throw_error("Unknown argument: " + arg)
+        throwError("Unknown argument: " + arg)
 
 
 if __name__ == "__main__":

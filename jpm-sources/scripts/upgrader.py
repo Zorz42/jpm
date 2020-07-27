@@ -5,7 +5,7 @@ from zipfile import ZipFile
 
 from wget import download
 
-from globals import currentdir, datadir
+from globals import currentdir, datadir, removeFileIfExists
 from scripts.checkForRepositoryConnection import checkRepConnection
 from scripts.cleanup import cleanup
 
@@ -14,14 +14,14 @@ newest_jaclang_version = ""
 install_directory = "/usr/local/share/"
 
 
-def check_for_jaclang_upgrade():
+def checkForJaclangUpgrade():
     if checkRepConnection():
-        if path.isfile(datadir + "newestjaclangversion.txt"):
-            remove(datadir + "newestjaclangversion.txt")
-        download("https://raw.githubusercontent.com/Zorz42/jaclang/master/include/version.h", datadir +
-                 "newestjaclangversion.txt", bar=None)
+        removeFileIfExists(f"{datadir}newestjaclangversion.txt")
+        download("https://raw.githubusercontent.com/Zorz42/jaclang/master/include/version.h",
+                 f"{datadir}newestjaclangversion.txt", bar=None)
     else:
         print("Could not establish internet connection!")
+
     with open(datadir + "newestjaclangversion.txt") as newest_version:
         global newest_jaclang_version
         newest_jaclang_version = [line.split(" ")[2] for line in newest_version.read().split("\n")
@@ -37,11 +37,10 @@ def check_for_jaclang_upgrade():
         return str(newest_jaclang_version) != str(currentjaclangversion)
 
 
-def upgrade_jaclang():
+def upgradeJaclang():
     newest_jaclang_version_processed = "beta-" + newest_jaclang_version.split(" ")[1]
     print("Downloading jaclang:")
-    if path.isfile(currentdir + "newerjaclang.zip"):
-        remove(currentdir + "newerjaclang.zip")
+    removeFileIfExists(f"{currentdir}newerjaclang.zip")
     download(f"https://github.com/Zorz42/jaclang/archive/{newest_jaclang_version_processed}.zip",
              currentdir + "newerjaclang.zip", bar=None)
 
@@ -59,12 +58,12 @@ def upgrade_jaclang():
 
 
 def upgrade():
-    if not check_for_jaclang_upgrade():
+    if not checkForJaclangUpgrade():
         print("Jaclang is up to date.")
     else:
-        upgrade_jaclang()
+        upgradeJaclang()
 
 
-def check_for_jpm_update():
-    if check_for_jaclang_upgrade():
+def checkForJaclangUpdate():
+    if checkForJaclangUpgrade():
         print("Jaclang needs to be updated! Update it by typing jpm upgrade!")

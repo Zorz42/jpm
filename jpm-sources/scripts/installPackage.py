@@ -3,16 +3,15 @@ from os import remove, path, mkdir
 from wget import download
 from tarfile import open as tar_open
 
-from globals import installdir, libdir, main_repository
+from globals import installdir, libdir, main_repository, removeFileIfExists
 
 
-def install_package(package_name, dependency):
+def installPackage(package_name, dependency):
     print(f"Installing {package_name}")
     with open(f"{installdir}{package_name}.json", "r") as info_file:
         info = load(info_file)
 
-    if path.isfile(f"{libdir}{package_name}.tar.gz"):
-        remove(f"{libdir}{package_name}.tar.gz")
+    removeFileIfExists(f"{libdir}{package_name}.tar.gz")
 
     download(f"{main_repository}{package_name}/Versions/{info['Version']}.tar.gz",
              f"{libdir}{package_name}.tar.gz", bar=None)

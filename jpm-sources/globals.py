@@ -1,5 +1,6 @@
-from os import path
+from os import path, remove
 from sys import argv
+from requests import get
 
 currentdir = path.split(path.abspath(path.realpath(argv[0])))[0] + '/'
 libdir = "/usr/local/share/jaclang-libraries/"
@@ -12,7 +13,7 @@ def choice():
     yes_options = ["Y", "YES"]
     no_options = ["N", "NO"]
     while True:
-        print("Proceed?[y,n]: ", end='', flush=True)
+        print("Proceed? [y,n]: ", end='', flush=True)
         answer = input()
         if answer.upper() in yes_options:
             return True
@@ -20,6 +21,15 @@ def choice():
             return False
 
 
-def throw_error(text="", end="\n", flush=False):
+def throwError(text="", end="\n", flush=False):
     print(f"\x1b[0;31m{text}\x1b[0m", end=end, flush=flush)
     exit(0)
+
+
+def removeFileIfExists(file_path):
+    if path.isfile(file_path):
+        remove(file_path)
+
+
+def downloadFile(url, file_destination):
+    open(file_destination, "w").write(str(get(url).content))

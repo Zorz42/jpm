@@ -1,24 +1,34 @@
-from json import load
 from os import path
 from shutil import rmtree
 
-from globals import throw_error, choice, libdir
-from scripts.listPackages import print_packages
+from globals import throwError, choice, libdir
+from scripts.listPackages import printPackages
+from scripts.checkForUnusedPackages import checkForUnusedPackages
 
 
-def remove_packages(package_names, force=False):
+def removePackages(package_names: list, force=False):
     if not package_names:
-        throw_error("Cannot remove nothing!")
+        throwError("Cannot remove nothing!")
+
     for package in package_names:
         if not path.isdir(libdir + package):
-            throw_error(f"Package {package} is not installed.")
-        with open(f"{libdir}{package}/Info.json") as file:
-            metadata = load(file)
-            if not force and metadata['Type'] == "Dependency":
-                throw_error(f"Package {package} is needed by other packages.")
+            throwError(f"Package {package} is not installed.")
+
+    unused_packages, _, dependencies = checkForUnusedPackages(package_names)
+    package_names += unused_packages
+
+    """if not force:
+        for dependency in dependencies:
+            if dependency in package_names:
+                package_names.remove(dependency)"""
+
+    if not package_names:
+        print("Nothing to remove!")
+        return
 
     print("Following packages will be removed:")
-    print_packages(package_names)
+    printPackages(package_names)
+
     if choice():
         for package_name in package_names:
             rmtree(libdir + package_name)
