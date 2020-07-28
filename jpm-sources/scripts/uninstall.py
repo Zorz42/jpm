@@ -6,14 +6,16 @@ from globals import choice
 
 def uninstall():
     print("By running this you will uninstall all jac related software on this computer!")
-    if not choice():
-        return
-    print("Removing Jaclang...")
-    remove("/usr/local/bin/jaclang")
-    rmtree("/usr/local/share/jaclang-data")
+    if choice():
+        print("Removing jac software.")
+        remove("/usr/local/bin/jaclang")
+        rmtree("/usr/local/share/jaclang-data")
+        rmtree("/usr/local/share/jaclang-libraries")
 
-    print("Removing JPM...")
-    remove("/usr/local/bin/jpm")
-    rmtree("/usr/local/share/jpm-sources")
+        remove("/usr/local/bin/jpm")
+        rmtree("/usr/local/share/jpm-sources")
 
-    print("JAC software removed!")
+        remove("/usr/local/bin/jacmake")
+        rmtree("/usr/local/share/jacmake-sources")
+
+        print("Jac software removed!")

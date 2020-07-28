@@ -6,7 +6,7 @@ from scripts.listPackages import printPackages
 from scripts.checkForUnusedPackages import checkForUnusedPackages
 
 
-def removePackages(package_names: list, force=False):
+def removePackages(package_names: set, force=False):
     if not package_names:
         throwError("Cannot remove nothing!")
 
@@ -27,7 +27,7 @@ def removePackages(package_names: list, force=False):
         return
 
     print("Following packages will be removed:")
-    printPackages(package_names)
+    printPackages(list(package_names))
 
     if choice():
         for package_name in package_names:

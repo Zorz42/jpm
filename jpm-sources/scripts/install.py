@@ -1,17 +1,17 @@
-from os import path, listdir, unlink
+from os import path, listdir, unlink, remove, mkdir, replace
 from json import load, dump, decoder
 from wget import download
 from subprocess import check_output
 from shutil import rmtree
 from requests import head, codes
+from tarfile import open as tar_open
 
-from globals import choice, throwError, installdir, main_repository
-from scripts.installPackage import installPackage
+from globals import choice, throwError, installdir, main_repository, libdir, removeFileIfExists
 from scripts.listPackages import listInstalledPackages, printPackages
 from scripts.verify import verifyPackageJson
 
 
-def buildDepTree(package_name, dependency=False):
+def buildDepTree(package_name: str, dependency=False):
     if path.isfile(f"{installdir}{package_name}.json"):
         return True
     if head(f"{main_repository}{package_name}/Latest.json").status_code != codes.ok:
@@ -20,7 +20,7 @@ def buildDepTree(package_name, dependency=False):
     download(f"{main_repository}{package_name}/Latest.json",
              f"{installdir}{package_name}.json", bar=None)
 
-    with open(f"{installdir}{package_name}.json", "r") as info_file:
+    with open(f"{installdir}{package_name}.json") as info_file:
         try:
             info = load(info_file)
         except decoder.JSONDecodeError:
@@ -52,16 +52,33 @@ def buildDepTree(package_name, dependency=False):
     return False
 
 
-def clearDirectory(dir_path):
+def installPackage(package_name: str):
+    print(f"Installing {package_name}")
+    with open(f"{installdir}{package_name}.json") as info_file:
+        info = load(info_file)
+
+    removeFileIfExists(f"{libdir}{package_name}.tar.gz")
+
+    download(f"{main_repository}{package_name}/Versions/{info['Version']}.tar.gz",
+             f"{libdir}{package_name}.tar.gz", bar=None)
+
+    mkdir(f"{libdir}{package_name}")
+    with tar_open(f"{libdir}{package_name}.tar.gz", "r:gz") as tar_file:
+        tar_file.extractall(path=f"{libdir}{package_name}")
+    remove(f"{libdir}{package_name}.tar.gz")
+    replace(f"{installdir}{package_name}.json", f"{libdir}{package_name}/Info.json")
+
+
+def clearDirectory(dir_path: str):
     for filename in listdir(dir_path):
         file_path = path.join(dir_path, filename)
+        if path.isdir(file_path):
+            rmtree(file_path)
         if path.isfile(file_path) or path.islink(file_path):
             unlink(file_path)
-        elif path.isdir(file_path):
-            rmtree(file_path)
 
 
-def install(package_names):
+def install(package_names: list):
     clearDirectory(installdir)
 
     for package in package_names:

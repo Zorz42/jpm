@@ -5,10 +5,9 @@ from globals import main_repository
 from scripts.listPackages import printPackages
 
 
-def listUrlDir(url):
-    page = request.urlopen(url)
-    soup = BeautifulSoup(page, 'html.parser')
-    return [node.get('href').split("/")[0] for node in soup.find_all('a') if node.get('href').endswith("/") and node.get('href') != "/"]
+def listUrlDir(url: str):
+    return [node.get("href").split("/")[0] for node in BeautifulSoup(request.urlopen(url), "html.parser").find_all("a")
+            if node.get("href").endswith("/") and node.get("href") != "/"]
 
 
 def listall():

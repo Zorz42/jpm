@@ -7,25 +7,29 @@ used_packages: list
 infos: dict
 
 
-def listDependencies(package_name):
+def listDependencies(package_name: str):
+    # walk through packages and their dependencies
     if package_name not in used_packages:
         used_packages.append(package_name)
         for package in infos[package_name]["Dependencies"]:
             listDependencies(package)
 
 
-def checkForUnusedPackages(ignore):
+def checkForUnusedPackages(ignore: set):
+    # lists unused dependencies, files to remove and all packages that are a dependency
     global used_packages, infos
-    used_packages, infos = list(), dict()
+    used_packages, infos = [], {}
 
     installed_packages, to_remove = listInstalledPackages()
     dependencies = set()
 
+    # collect all infos of installed packages
     for package in installed_packages:
-        with open(f"{libdir}{package}/Info.json") as file:
-            infos[package] = load(file)
+        with open(f"{libdir}{package}/Info.json") as info_file:
+            infos[package] = load(info_file)
             dependencies.update(infos[package]["Dependencies"])
 
+    # get installed packages and packages
     installed_packages = [package for package in installed_packages if package not in ignore]
     packages = [package for package in installed_packages if infos[package]["Type"] == "Package"]
 

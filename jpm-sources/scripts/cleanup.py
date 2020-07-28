@@ -7,7 +7,7 @@ from scripts.checkForUnusedPackages import checkForUnusedPackages
 
 
 def cleanup():
-    unused_packages, to_remove, _ = checkForUnusedPackages([])
+    unused_packages, to_remove, _ = checkForUnusedPackages(set())
 
     if not unused_packages:
         print("All packages are being used.")

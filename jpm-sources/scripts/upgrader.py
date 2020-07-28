@@ -9,9 +9,7 @@ from globals import currentdir, datadir, removeFileIfExists
 from scripts.checkForRepositoryConnection import checkRepConnection
 from scripts.cleanup import cleanup
 
-newest_jaclang_version = ""
-
-install_directory = "/usr/local/share/"
+newest_jaclang_version: str
 
 
 def checkForJaclangUpgrade():
@@ -44,8 +42,8 @@ def upgradeJaclang():
     download(f"https://github.com/Zorz42/jaclang/archive/{newest_jaclang_version_processed}.zip",
              currentdir + "newerjaclang.zip", bar=None)
 
-    print("\nExtracting jaclang ... ", end='', flush=True)
-    with ZipFile(currentdir + "newerjaclang.zip", 'r') as zip_ref:
+    print("\nExtracting jaclang ... ", end="", flush=True)
+    with ZipFile(currentdir + "newerjaclang.zip") as zip_ref:
         zip_ref.extractall(currentdir)
     print("DONE")
     print("Installing jaclang...")

@@ -1,4 +1,4 @@
-def verifyPackageJson(json, installed=True):
+def verifyPackageJson(json: dict, installed=True):
     needed_keys = ["Version", "Dependencies"]
     if not installed:
         needed_keys.append("Supported Version")

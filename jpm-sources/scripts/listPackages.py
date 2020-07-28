@@ -3,21 +3,23 @@ from os import listdir, path
 from globals import libdir
 
 
-def printPackages(package_list):
-    for package in package_list:
-        print(package, end='     ')
+def printPackages(packages: list):
+    for package in packages:
+        print(package, end="     ")
     print()
 
 
+def packageExists(package_name: str):
+    return path.isdir(libdir + package_name)
+
+
 def listInstalledPackages():
-    all_files = listdir(libdir)
-    to_remove = []
-    valid_packages = []
-    for file in all_files:
-        if path.isfile(libdir + file):
-            to_remove.append(file)
-        else:
+    to_remove, valid_packages = [], []
+    for file in listdir(libdir):
+        if packageExists(file):
             valid_packages.append(file)
+        else:
+            to_remove.append(file)
     return valid_packages, to_remove
 
 
@@ -31,4 +33,4 @@ def listPackages():
     if to_remove:
         print("Following files/directories do not belong into the jaclang-libraries directory:")
         printPackages(to_remove)
-        print("Type 'jpm cleanup' to remove them.")
+        print("Type \"jpm cleanup\" to remove them.")
