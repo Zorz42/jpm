@@ -1,6 +1,5 @@
-from os import path, listdir, unlink, remove, mkdir, replace
+from os import path, listdir, unlink, remove, mkdir, replace, popen
 from json import load, dump, decoder
-from subprocess import check_output
 from shutil import rmtree
 from tarfile import open as tar_open
 
@@ -34,7 +33,7 @@ def buildDepTree(package_name: str, dependency=False):
 
     # get current jaclang version and supported one
     supported_version = [int(x) for x in info["Supported Version"].split(".")]
-    current_jaclang_version = str(check_output(["jaclang", "--version"])).split(" ")[1][:-3]
+    current_jaclang_version = popen("jaclang --version").read().split(" ")[1][:-3]
     current_jaclang_version = [int(x) for x in current_jaclang_version.split(".")[:-1]]
 
     # check if package supports current jaclang version

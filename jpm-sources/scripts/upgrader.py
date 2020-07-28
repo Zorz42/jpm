@@ -1,6 +1,5 @@
-from os import remove, system
+from os import remove, system, popen
 from shutil import rmtree
-from subprocess import check_output
 from tarfile import open as tar_open
 from time import time
 from os import stat
@@ -14,20 +13,20 @@ newest_version: str
 def checkForJaclangUpgrade(check_anyways=False):
     # download jaclang version file if could connect to the internet
 
-    # check if it is internet connection and if newestjaclangversion.txt was not updated in the last 24 hours
+    # check if it is internet connection and if newestversion.txt was not updated in the last 24 hours
     if check_anyways or (checkRepConnection() and
-                         time() - stat(f"{datadir}newestjaclangversion.txt").st_ctime >= 86400):
+                         time() - stat(f"{datadir}newestversion.txt").st_ctime >= 86400):
         downloadFile("https://raw.githubusercontent.com/Zorz42/jaclang/master/include/version.h",
-                     f"{datadir}newestjaclangversion.txt")
+                     f"{datadir}newestversion.txt")
 
     # open version file
-    with open(datadir + "newestjaclangversion.txt") as newest_version_file:
+    with open(datadir + "newestversion.txt") as newest_version_file:
         global newest_version
         # parse version file
         newest_version = "BETA " + ".".join([line.split(" ")[2][1:-1] for line in
                                              newest_version_file.read().split("\n") if line])
         try:
-            currentjaclangversion = check_output(["jaclang", "--version"]).decode("utf-8")[:-1]
+            currentjaclangversion = popen("jaclang --version").read()[:-1]
         except FileNotFoundError:
             currentjaclangversion = b"nonexistent"
 

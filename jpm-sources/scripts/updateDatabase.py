@@ -1,4 +1,4 @@
-from urllib.request import urlopen, Request
+from urllib.request import urlopen
 
 from globals import main_repository
 
