@@ -31,7 +31,7 @@ def main():
         from scripts.checkForRepositoryConnection import checkConnection
 
         checkConnection()
-        install(args)
+        install(set(args))
     elif arg == "remove":
         from scripts.remove import removePackages
 

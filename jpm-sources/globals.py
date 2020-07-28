@@ -1,6 +1,7 @@
 from os import path, remove
 from sys import argv
-from requests import get
+
+from httplib2 import Http
 
 currentdir = path.split(path.abspath(path.realpath(argv[0])))[0] + "/"
 libdir = "/usr/local/share/jaclang-libraries/"
@@ -32,4 +33,9 @@ def removeFileIfExists(file_path: str):
 
 
 def downloadFile(url: str, file_destination: str):
-    open(file_destination, "w").write(str(get(url).content))
+    response, content = Http().request(url)
+    if response.status == 200:
+        with open(file_destination, "wb") as file:
+            file.write(content)
+    else:
+        print(f"Warning: {url} could not be downloaded!")

@@ -4,7 +4,7 @@ from globals import libdir
 from scripts.verify import packageExists
 
 
-def printPackages(packages: list):
+def printPackages(packages):
     # pretty print packages
     for package in packages:
         print(package, end="     ")
@@ -13,12 +13,12 @@ def printPackages(packages: list):
 
 def listInstalledPackages():
     # list all valid packages and invalid files/directories
-    to_remove, valid_packages = [], []
+    to_remove, valid_packages = set(), set()
     for package in listdir(libdir):
         if packageExists(package):
-            valid_packages.append(package)
+            valid_packages.add(package)
         else:
-            to_remove.append(package)
+            to_remove.add(package)
     return valid_packages, to_remove
 
 
@@ -29,6 +29,7 @@ def listPackages():
         printPackages(installed_packages)
     else:
         print(f"No packages installed.")
+
     if to_remove:
         print("Following files/directories do not belong into the jaclang-libraries directory:")
         printPackages(to_remove)

@@ -1,56 +1,54 @@
 from os import remove, system
 from shutil import rmtree
 from subprocess import check_output
-from zipfile import ZipFile
+from tarfile import open as tar_open
 
-from wget import download
-
-from globals import currentdir, datadir, removeFileIfExists
+from globals import currentdir, datadir, removeFileIfExists, downloadFile
 from scripts.checkForRepositoryConnection import checkRepConnection
-from scripts.cleanup import cleanup
 
-newest_jaclang_version: str
+newest_version: str
 
 
 def checkForJaclangUpgrade():
+    # download jaclang version file if could connect to the internet
     if checkRepConnection():
         removeFileIfExists(f"{datadir}newestjaclangversion.txt")
-        download("https://raw.githubusercontent.com/Zorz42/jaclang/master/include/version.h",
-                 f"{datadir}newestjaclangversion.txt", bar=None)
+        downloadFile("https://raw.githubusercontent.com/Zorz42/jaclang/master/include/version.h",
+                     f"{datadir}newestjaclangversion.txt")
 
-    with open(datadir + "newestjaclangversion.txt") as newest_version:
-        global newest_jaclang_version
-        newest_jaclang_version = [line.split(" ")[2] for line in newest_version.read().split("\n")
-                                  if len(line.split(" ")) == 3]
-        newest_jaclang_version = [i[1:len(i) - 1] for i in newest_jaclang_version]
-        newest_jaclang_version = "BETA " + ".".join(newest_jaclang_version)
+    # open version file
+    with open(datadir + "newestjaclangversion.txt") as newest_version_file:
+        global newest_version
+        # parse version file
+        newest_version = "BETA " + ".".join([line.split(" ")[2][1:-1] for line in
+                                             newest_version_file.read().split("\n") if line])
         try:
-            currentjaclangversion = check_output(["jaclang", "--version"])
+            currentjaclangversion = check_output(["jaclang", "--version"]).decode("utf-8")[:-1]
         except FileNotFoundError:
             currentjaclangversion = b"nonexistent"
-        currentjaclangversion = currentjaclangversion[:len(currentjaclangversion) - 1]
-        currentjaclangversion = currentjaclangversion.decode("utf-8")
-        return str(newest_jaclang_version) != str(currentjaclangversion)
+
+        return newest_version != currentjaclangversion
 
 
 def upgradeJaclang():
-    newest_jaclang_version_processed = "beta-" + newest_jaclang_version.split(" ")[1]
-    print("Downloading jaclang:")
+    print("Installing jaclang")
+
+    # download archive
+    version = "beta-" + newest_version.split(" ")[1]
     removeFileIfExists(f"{currentdir}newerjaclang.zip")
-    download(f"https://github.com/Zorz42/jaclang/archive/{newest_jaclang_version_processed}.zip",
-             currentdir + "newerjaclang.zip", bar=None)
+    downloadFile(f"https://github.com/Zorz42/jaclang/archive/{version}.tar.gz",
+                 f"{currentdir}newerjaclang.tar.gz")
 
-    print("\nExtracting jaclang ... ", end="", flush=True)
-    with ZipFile(currentdir + "newerjaclang.zip") as zip_ref:
-        zip_ref.extractall(currentdir)
-    print("DONE")
-    print("Installing jaclang...")
-    system(f"cd {currentdir}jaclang-{newest_jaclang_version_processed} && make")
-    print()
+    # extract archive
+    with tar_open(f"{currentdir}newerjaclang.tar.gz", "r:gz") as tar_file:
+        tar_file.extractall(path=currentdir)
 
-    remove(currentdir + "newerjaclang.zip")
-    rmtree(currentdir + f"jaclang-{newest_jaclang_version_processed}")
-    cleanup()
+    # install jaclang
+    system(f"make -C {currentdir}jaclang-{version}")
+
+    # cleanup
+    remove(f"{currentdir}newerjaclang.zip")
+    rmtree(f"{currentdir}jaclang-{version}")
 
 
 def upgrade():

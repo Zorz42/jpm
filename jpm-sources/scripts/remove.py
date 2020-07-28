@@ -26,14 +26,14 @@ def removePackages(package_names: set, force=False):
                 package_names.remove(dependency)
 
     # add unused packages to remove list
-    package_names += unused_packages
+    package_names.update(unused_packages)
 
     if not package_names:
         print("Nothing to remove!")
         return
 
     print("Following packages will be removed:")
-    printPackages(list(package_names))
+    printPackages(package_names)
 
     if choice():
         for package_name in package_names:

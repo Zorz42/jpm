@@ -18,7 +18,7 @@ def listDependencies(package_name: str):
 def checkForUnusedPackages(ignore: set):
     # lists unused dependencies, files to remove and all packages that are a dependency
     global used_packages, infos
-    used_packages, infos = [], {}
+    used_packages, infos = set(), {}
 
     installed_packages, to_remove = listInstalledPackages()
     dependencies = set()
@@ -36,4 +36,4 @@ def checkForUnusedPackages(ignore: set):
     for package in packages:
         listDependencies(package)
 
-    return [x for x in installed_packages if x not in used_packages], to_remove, dependencies
+    return {x for x in installed_packages if x not in used_packages}, to_remove, dependencies
