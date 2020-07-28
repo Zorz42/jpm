@@ -1,7 +1,8 @@
 from os import path, remove
 from sys import argv
 
-from httplib2 import Http
+from urllib.request import urlopen, Request
+from urllib.error import HTTPError
 
 currentdir = path.split(path.abspath(path.realpath(argv[0])))[0] + "/"
 libdir = "/usr/local/share/jaclang-libraries/"
@@ -33,9 +34,23 @@ def removeFileIfExists(file_path: str):
 
 
 def downloadFile(url: str, file_destination: str):
-    response, content = Http().request(url)
-    if response.status == 200:
-        with open(file_destination, "wb") as file:
-            file.write(content)
-    else:
-        print(f"Warning: {url} could not be downloaded!")
+    try:
+        with urlopen(url) as f:
+            html = f.read()
+    except HTTPError:
+        throwError(f"{url} could not be downloaded!")
+    with open(file_destination, "wb") as file:
+        file.seek(0)
+        file.write(html)
+        file.truncate()
+
+
+def urlExists(url: str):
+    request = Request(url)
+    request.get_method = lambda: 'HEAD'
+
+    try:
+        urlopen(request)
+        return True
+    except HTTPError:
+        return False

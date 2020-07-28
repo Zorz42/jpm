@@ -2,6 +2,8 @@ from os import remove, system
 from shutil import rmtree
 from subprocess import check_output
 from tarfile import open as tar_open
+from time import time
+from os import stat
 
 from globals import currentdir, datadir, removeFileIfExists, downloadFile
 from scripts.checkForRepositoryConnection import checkRepConnection
@@ -9,10 +11,12 @@ from scripts.checkForRepositoryConnection import checkRepConnection
 newest_version: str
 
 
-def checkForJaclangUpgrade():
+def checkForJaclangUpgrade(check_anyways=False):
     # download jaclang version file if could connect to the internet
-    if checkRepConnection():
-        removeFileIfExists(f"{datadir}newestjaclangversion.txt")
+
+    # check if it is internet connection and if newestjaclangversion.txt was not updated in the last 24 hours
+    if check_anyways or (checkRepConnection() and
+                         time() - stat(f"{datadir}newestjaclangversion.txt").st_ctime >= 86400):
         downloadFile("https://raw.githubusercontent.com/Zorz42/jaclang/master/include/version.h",
                      f"{datadir}newestjaclangversion.txt")
 
@@ -52,10 +56,10 @@ def upgradeJaclang():
 
 
 def upgrade():
-    if not checkForJaclangUpgrade():
-        print("Jaclang is up to date.")
-    else:
+    if checkForJaclangUpgrade(check_anyways=True):
         upgradeJaclang()
+    else:
+        print("Jaclang is up to date.")
 
 
 def checkForJaclangUpdate():

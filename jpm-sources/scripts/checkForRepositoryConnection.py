@@ -1,14 +1,8 @@
-from requests import head, exceptions
-
-from globals import throwError
+from globals import throwError, urlExists
 
 
 def checkRepConnection():
-    try:
-        head("https://zorz.si")
-        return True
-    except exceptions.ConnectionError:
-        return False
+    return urlExists("https://zorz.si")
 
 
 def checkConnection():

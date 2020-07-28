@@ -2,10 +2,9 @@ from os import path, listdir, unlink, remove, mkdir, replace
 from json import load, dump, decoder
 from subprocess import check_output
 from shutil import rmtree
-from httplib2 import Http
 from tarfile import open as tar_open
 
-from globals import choice, throwError, installdir, main_repository, libdir, removeFileIfExists, downloadFile
+from globals import choice, throwError, installdir, main_repository, libdir, removeFileIfExists, downloadFile, urlExists
 from scripts.listPackages import listInstalledPackages, printPackages
 from scripts.verify import verifyPackageJson
 
@@ -16,8 +15,7 @@ def buildDepTree(package_name: str, dependency=False):
         return True
 
     # check if package exists
-
-    if Http().request(f"{main_repository}{package_name}/Latest.json")[0].status != 200:
+    if not urlExists(f"{main_repository}{package_name}/Latest.json"):
         throwError(f"Package {package_name} does not exist.")
 
     # download info file

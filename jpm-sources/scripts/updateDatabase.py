@@ -1,12 +1,17 @@
-from urllib import request
-from bs4 import BeautifulSoup
+from urllib.request import urlopen, Request
 
 from globals import main_repository
 
 
 def listUrlDir(url: str):
-    return [node.get("href").split("/")[0] for node in BeautifulSoup(request.urlopen(url), "html.parser").find_all("a")
-            if node.get("href").endswith("/") and node.get("href") != "/"]
+    # parse url files
+    with urlopen(url) as f:
+        html = f.read().decode("utf-8")
+    package_names = []
+    for line in html.split("\n"):
+        if line.startswith("<tr>") and "alt=\"[DIR]\"" in line:
+            package_names.append(line[line.find("href") + 6:].partition("\"")[0][:-1])
+    return package_names
 
 
 def updateDatabase():
