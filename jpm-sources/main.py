@@ -17,26 +17,25 @@ def main():
         print("    jpm cleanup            - clean up unused dependencies and invalid files")
         print("    jpm upgrade            - upgrade jaclang to latest stable version")
         print("    jpm listall            - list all packages in repositories")
-        print("    jpm version            - show current version of jpm")
         print("    jpm updatedatabase     - update database")
         print("    jpm uninstall          - uninstall jpm and any other software in his family, like jaclang")
         return
 
     arg = argv[1]
     args = argv[2:]
+    from scripts.upgrader import checkForJaclangUpdate
+    checkForJaclangUpdate()
 
     if arg == "install":
-        from scripts.upgrader import checkForJaclangUpdate
         from scripts.install import install
         from scripts.checkForRepositoryConnection import checkConnection
 
         checkConnection()
-        checkForJaclangUpdate()
         install(args)
     elif arg == "remove":
         from scripts.remove import removePackages
 
-        removePackages(args)
+        removePackages(set(args))
     elif arg == "list":
         from scripts.listPackages import listPackages
 
@@ -45,12 +44,6 @@ def main():
         from scripts.cleanup import cleanup
 
         cleanup()
-    elif arg == "upgrade" and len(args) > 0:
-        from scripts.upgrader import upgradeJaclang
-        from scripts.checkForRepositoryConnection import checkConnection
-
-        checkConnection()
-        upgradeJaclang()
     elif arg == "upgrade":
         from scripts.upgrader import upgrade
         from scripts.checkForRepositoryConnection import checkConnection
@@ -59,20 +52,14 @@ def main():
         upgrade()
     elif arg == "listall":
         from scripts.listAll import listall
-        from scripts.upgrader import checkForJaclangUpdate
-        from scripts.checkForRepositoryConnection import checkConnection
 
-        checkConnection()
-        checkForJaclangUpdate()
         listall()
-    elif arg == "version":
-        print("Current version: " + version)
     elif arg == "updatedatabase":
-        from scripts.updateDatabase import updatedatabase
+        from scripts.updateDatabase import updateDatabase
         from scripts.checkForRepositoryConnection import checkConnection
 
         checkConnection()
-        updatedatabase()
+        updateDatabase()
     elif arg == "uninstall":
         from scripts.uninstall import uninstall
 

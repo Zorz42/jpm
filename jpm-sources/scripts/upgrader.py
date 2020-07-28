@@ -1,4 +1,4 @@
-from os import path, remove, system
+from os import remove, system
 from shutil import rmtree
 from subprocess import check_output
 from zipfile import ZipFile
@@ -17,8 +17,6 @@ def checkForJaclangUpgrade():
         removeFileIfExists(f"{datadir}newestjaclangversion.txt")
         download("https://raw.githubusercontent.com/Zorz42/jaclang/master/include/version.h",
                  f"{datadir}newestjaclangversion.txt", bar=None)
-    else:
-        print("Could not establish internet connection!")
 
     with open(datadir + "newestjaclangversion.txt") as newest_version:
         global newest_jaclang_version

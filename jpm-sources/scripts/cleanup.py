@@ -1,4 +1,5 @@
-from os import remove
+from os import unlink, path
+from shutil import rmtree
 
 from globals import choice, libdir
 from scripts.listPackages import printPackages
@@ -7,6 +8,7 @@ from scripts.checkForUnusedPackages import checkForUnusedPackages
 
 
 def cleanup():
+    # remove unused packages and invalid files
     unused_packages, to_remove, _ = checkForUnusedPackages(set())
 
     if not unused_packages:
@@ -19,5 +21,8 @@ def cleanup():
         printPackages(to_remove)
         if choice():
             for file in to_remove:
-                remove(libdir + file)
+                if path.isdir(libdir + file):
+                    rmtree(libdir + file)
+                else:
+                    unlink(libdir + file)
             print(f"Removed {len(to_remove)} files/directories.")

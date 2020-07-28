@@ -1,25 +1,24 @@
-from os import listdir, path
+from os import listdir
 
 from globals import libdir
+from scripts.verify import packageExists
 
 
 def printPackages(packages: list):
+    # pretty print packages
     for package in packages:
         print(package, end="     ")
     print()
 
 
-def packageExists(package_name: str):
-    return path.isdir(libdir + package_name)
-
-
 def listInstalledPackages():
+    # list all valid packages and invalid files/directories
     to_remove, valid_packages = [], []
-    for file in listdir(libdir):
-        if packageExists(file):
-            valid_packages.append(file)
+    for package in listdir(libdir):
+        if packageExists(package):
+            valid_packages.append(package)
         else:
-            to_remove.append(file)
+            to_remove.append(package)
     return valid_packages, to_remove
 
 
