@@ -5,7 +5,7 @@ from tarfile import open as tar_open
 
 from globals import choice, throwError, installdir, main_repository, libdir, removeFileIfExists, downloadFile, urlExists
 from scripts.listPackages import listInstalledPackages, printPackages
-from scripts.verify import verifyPackageJson
+from scripts.verify import verifyPackageJson, packageExists
 
 
 def buildDepTree(package_name: str, dependency=False):
@@ -33,7 +33,7 @@ def buildDepTree(package_name: str, dependency=False):
 
     # get current jaclang version and supported one
     supported_version = [int(x) for x in info["Supported Version"].split(".")]
-    current_jaclang_version = popen("jaclang --version").read().split(" ")[1][:-3]
+    current_jaclang_version = popen("jaclang --version").read().split(" ")[1]
     current_jaclang_version = [int(x) for x in current_jaclang_version.split(".")[:-1]]
 
     # check if package supports current jaclang version
@@ -73,11 +73,15 @@ def installPackage(package_name: str):
     # make directory for the package and extract it
     mkdir(f"{libdir}{package_name}")
     with tar_open(f"{libdir}{package_name}.tar.gz", "r:gz") as tar_file:
-        tar_file.extractall(path=f"{libdir}{package_name}")
+        tar_file.extractall(path=libdir + package_name)
 
     # remove archive and replace optimized json file
     remove(f"{libdir}{package_name}.tar.gz")
     replace(f"{installdir}{package_name}.json", f"{libdir}{package_name}/Info.json")
+
+    if not packageExists(package_name):
+        throwError(f"Package {package_name} is not valid and cannot be installed.")
+        rmtree(libdir + package_name)
 
 
 def clearDirectory(dir_path: str):

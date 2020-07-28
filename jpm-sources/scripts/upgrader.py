@@ -15,7 +15,8 @@ def checkForJaclangUpgrade(check_anyways=False):
 
     # check if it is internet connection and if newestversion.txt was not updated in the last 24 hours
     if check_anyways or (checkRepConnection() and
-                         time() - stat(f"{datadir}newestversion.txt").st_ctime >= 86400):
+                         (time() - stat(f"{datadir}newestversion.txt").st_ctime >= 86400 or
+                          open(f"{datadir}newestversion.txt").read() != "nonexistent\n")):
         downloadFile("https://raw.githubusercontent.com/Zorz42/jaclang/master/include/version.h",
                      f"{datadir}newestversion.txt")
 
