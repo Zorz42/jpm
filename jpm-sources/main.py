@@ -10,7 +10,7 @@ def main():
         throwError("Must be using Python3")
 
     if len(argv) == 1:
-        print("JPM help:")
+        print(f"Jpm {version} - help:")
         print("    jpm install [packages] - install packages")
         print("    jpm remove [packages]  - remove packages")
         print("    jpm list               - list all installed packages")
