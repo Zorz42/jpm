@@ -11,5 +11,5 @@ def listall():
     if time() - stat(f"{datadir}newestversion.txt").st_ctime >= 86400 and checkRepConnection():
         updateDatabase()
     print("Listing all installable packages:")
-    with open(f"/usr/local/share/jaclang-data/jpm-database.txt") as database:
+    with open(f"{datadir}jpm-database.txt") as database:
         printPackages(database.read().split("\n"))

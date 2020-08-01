@@ -1,4 +1,4 @@
-from os import path, listdir, unlink, remove, mkdir, replace, popen
+from os import path, listdir, unlink, remove, mkdir, replace, popen, system
 from json import load, dump, decoder
 from shutil import rmtree
 from tarfile import open as tar_open
@@ -82,6 +82,10 @@ def installPackage(package_name: str):
     if not packageExists(package_name):
         throwError(f"Package {package_name} is not valid and cannot be installed.")
         rmtree(libdir + package_name)
+
+    system(f"jacmake {libdir}{package_name}")
+
+    rmtree(f"{libdir}{package_name}/Sources")
 
 
 def clearDirectory(dir_path: str):

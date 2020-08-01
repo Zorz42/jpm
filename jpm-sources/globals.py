@@ -5,9 +5,10 @@ from urllib.request import urlopen, Request
 from urllib.error import HTTPError
 
 currentdir = path.split(path.abspath(path.realpath(argv[0])))[0] + "/"
-libdir = "/usr/local/share/jaclang-libraries/"
-datadir = "/usr/local/share/jaclang-data/"
-installdir = currentdir + "to-install/"
+jacdir = "/usr/local/Jac/"
+libdir = f"{jacdir}Libraries/"
+datadir = f"{jacdir}Data/"
+installdir = f"{jacdir}ToInstall/"
 main_repository = "https://jaclang.zorz.si/main-repository/"
 
 
