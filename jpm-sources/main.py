@@ -2,7 +2,7 @@ from sys import version_info, argv
 
 from globals import throwError
 
-version = "1.6.1"
+version = "1.6.2"
 
 
 def main():

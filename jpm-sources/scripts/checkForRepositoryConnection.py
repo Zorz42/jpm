@@ -2,7 +2,7 @@ from globals import throwError, urlExists
 
 
 def checkRepConnection():
-    return urlExists("https://zorz.si")
+    return urlExists("https://jaclang.zorz.si")
 
 
 def checkConnection():
