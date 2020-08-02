@@ -3,7 +3,7 @@ from json import load, dump, decoder
 from shutil import rmtree
 from tarfile import open as tar_open
 
-from globals import choice, throwError, installdir, main_repository, libdir, removeFileIfExists, downloadFile, urlExists
+from globals import choice, throwError, installdir, main_repository, libdir, removeFileIfExists, downloadFile, urlExists, jacdir
 from scripts.listPackages import listInstalledPackages, printPackages
 from scripts.verify import verifyPackageJson, packageExists
 
@@ -33,7 +33,7 @@ def buildDepTree(package_name: str, dependency=False):
 
     # get current jaclang version and supported one
     supported_version = [int(x) for x in info["Supported Version"].split(".")]
-    current_jaclang_version = popen("jaclang --version").read().split(" ")[1]
+    current_jaclang_version = popen(f"{jacdir}Binaries/jaclang --version").read().split(" ")[1]
     current_jaclang_version = [int(x) for x in current_jaclang_version.split(".")[:-1]]
 
     # check if package supports current jaclang version

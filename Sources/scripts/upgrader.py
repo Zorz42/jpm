@@ -4,7 +4,7 @@ from tarfile import open as tar_open
 from time import time
 from os import stat
 
-from globals import currentdir, datadir, removeFileIfExists, downloadFile
+from globals import currentdir, datadir, removeFileIfExists, downloadFile, jacdir
 from scripts.checkForRepositoryConnection import checkRepConnection
 
 newest_version: str
@@ -27,7 +27,7 @@ def checkForJaclangUpgrade(check_anyways=False):
         newest_version = "BETA " + ".".join([line.split(" ")[2][1:-1] for line in
                                              newest_version_file.read().split("\n") if line])
         try:
-            currentjaclangversion = popen("jaclang --version").read()[:-1]
+            currentjaclangversion = popen(f"{jacdir}Binaries/jaclang --version").read()[:-1]
         except FileNotFoundError:
             currentjaclangversion = b"nonexistent"
 
