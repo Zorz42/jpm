@@ -2,7 +2,7 @@ from sys import version_info, argv
 
 from globals import throwError
 
-version = "1.6.6"
+version = "1.6.7"
 
 
 def main():
@@ -11,14 +11,8 @@ def main():
 
     if len(argv) == 1:
         print(f"Jpm {version} - help:")
-        print("    jpm install [packages] - install packages")
-        print("    jpm remove [packages]  - remove packages")
-        print("    jpm list               - list all installed packages")
-        print("    jpm cleanup            - clean up unused dependencies and invalid files")
-        print("    jpm upgrade            - upgrade jaclang to latest stable version")
-        print("    jpm listall            - list all packages in repositories")
-        print("    jpm updatedatabase     - update database")
-        print("    jpm uninstall          - uninstall jpm and any other software in his family, like jaclang")
+        with open("/usr/local/Jac/Data/jpm-help.txt") as help_file:
+            print(help_file.read(), end='')
         return
 
     arg = argv[1]
