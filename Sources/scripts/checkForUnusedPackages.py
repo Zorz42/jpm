@@ -3,14 +3,14 @@ from json import load
 from scripts.listPackages import listInstalledPackages
 from globals import libdir
 
-used_packages: list
+used_packages: set
 infos: dict
 
 
 def listDependencies(package_name: str):
     # walk through packages and their dependencies
     if package_name not in used_packages:
-        used_packages.append(package_name)
+        used_packages.add(package_name)
         for package in infos[package_name]["Dependencies"]:
             listDependencies(package)
 

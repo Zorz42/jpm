@@ -42,9 +42,9 @@ def buildDepTree(package_name: str, dependency=False):
         throwError(f"Package {package_name} is not compatible with your current version of jaclang!")
 
     # remove unnecessary dependencies to save characters in info file
-    for dependency in info["Dependencies"].copy():
-        if buildDepTree(dependency, dependency=True):
-            info["Dependencies"].remove(dependency)
+    for dependency_ in info["Dependencies"].copy():
+        if buildDepTree(dependency_, dependency=True):
+            info["Dependencies"].remove(dependency_)
 
     # delete some unnecessary info in info file
     del info["Supported Version"]
