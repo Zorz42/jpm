@@ -3,7 +3,7 @@ from subprocess import call
 
 from globals import throwError
 
-version = "1.6.11"
+version = "1.6.12"
 
 
 def getSuperuserPrivileges():
