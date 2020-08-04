@@ -1,14 +1,8 @@
 from sys import version_info, argv
-from subprocess import call
 
 from globals import throwError
 
-version = "1.6.13"
-
-
-def getSuperuserPrivileges():
-    if call(["/usr/bin/sudo", "/usr/bin/id"]) != 0:
-        exit(0)
+version = "1.6.14"
 
 
 def main():
@@ -29,7 +23,6 @@ def main():
         from scripts.checkForRepositoryConnection import checkConnection
         from scripts.upgrader import checkForJaclangUpdate
 
-        getSuperuserPrivileges()
         checkForJaclangUpdate()
         checkConnection()
         install(set(args))
@@ -37,7 +30,6 @@ def main():
         from scripts.remove import removePackages
         from scripts.upgrader import checkForJaclangUpdate
 
-        getSuperuserPrivileges()
         checkForJaclangUpdate()
         removePackages(set(args))
     elif arg == "list":
@@ -48,34 +40,29 @@ def main():
         from scripts.cleanup import cleanup
         from scripts.upgrader import checkForJaclangUpdate
 
-        getSuperuserPrivileges()
         checkForJaclangUpdate()
         cleanup()
     elif arg == "upgrade":
         from scripts.upgrader import upgrade
         from scripts.checkForRepositoryConnection import checkConnection
 
-        getSuperuserPrivileges()
         checkConnection()
         upgrade()
     elif arg == "listall":
         from scripts.listAll import listall
         from scripts.upgrader import checkForJaclangUpdate
 
-        getSuperuserPrivileges()
         checkForJaclangUpdate()
         listall()
     elif arg == "updatedatabase":
         from scripts.updateDatabase import updateDatabase
         from scripts.checkForRepositoryConnection import checkConnection
 
-        getSuperuserPrivileges()
         checkConnection()
         updateDatabase()
     elif arg == "uninstall":
         from scripts.uninstall import uninstall
 
-        getSuperuserPrivileges()
         uninstall()
     else:
         throwError("Unknown argument: " + arg)
