@@ -3,7 +3,8 @@ from json import load, dump, decoder
 from shutil import rmtree
 from tarfile import open as tar_open
 
-from globals import choice, throwError, installdir, main_repository, libdir, removeFileIfExists, downloadFile, urlExists, jacdir
+from globals import choice, throwError, installdir, main_repository, libdir, removeFileIfExists, downloadFile, \
+    urlExists, jacdir
 from scripts.listPackages import listInstalledPackages, printPackages
 from scripts.verify import verifyPackageJson, packageExists
 

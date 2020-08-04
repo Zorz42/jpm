@@ -28,8 +28,7 @@ def packageExists(package_name: str):
     try:
         return path.isfile(f"{libdir}{package_name}/Info.json") \
                and verifyPackageJson(load(open(f"{libdir}{package_name}/Info.json")), installed=True) \
-               and path.isfile(f"{libdir}{package_name}/Headers/__main__.jlh") \
-               and path.isdir(f"{libdir}{package_name}/Sources/")
+               and path.isfile(f"{libdir}{package_name}/Headers/__main__.jlh")
     except decoder.JSONDecodeError:
         # if json isn't valid
         return False
