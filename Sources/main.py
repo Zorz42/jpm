@@ -1,8 +1,10 @@
+#!sudo python3
+
 from sys import version_info, argv
 
 from globals import throwError
 
-version = "1.6.9"
+version = "1.6.10"
 
 
 def main():
