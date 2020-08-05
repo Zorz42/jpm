@@ -1,8 +1,10 @@
+#!/usr/bin/env sudo python3
+
 from sys import version_info, argv
 
 from globals import throwError
 
-version = "1.6.14"
+version = "1.6.15"
 
 
 def main():
