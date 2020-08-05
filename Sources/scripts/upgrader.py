@@ -3,13 +3,14 @@ from shutil import rmtree
 from tarfile import open as tar_open
 from time import time
 
-from globals import currentdir, removeFileIfExists, downloadFile, jacdir, cachedir
+from globals import currentdir, removeFileIfExists, downloadFile, jacdir, cachedir, makeCacheDir
 from scripts.checkForRepositoryConnection import checkRepConnection
 
 newest_version: str
 
 
 def checkForJaclangUpgrade(check_anyways=False):
+    makeCacheDir()
     # download jaclang version file if could connect to the internet
 
     # check if it is internet connection and if newestversion.txt was not updated in the last 24 hours
