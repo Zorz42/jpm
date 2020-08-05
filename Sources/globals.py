@@ -1,4 +1,4 @@
-from os import path, remove
+from os import path, remove, mkdir
 from sys import argv
 
 from urllib.request import urlopen, Request
@@ -8,7 +8,9 @@ currentdir = path.split(path.abspath(path.realpath(argv[0])))[0] + "/"
 jacdir = "/usr/local/Jac/"
 libdir = f"{jacdir}Libraries/"
 datadir = f"{jacdir}Data/"
-installdir = f"{jacdir}ToInstall/"
+cachedir = f"{jacdir}Caches/"
+installdir = f"{cachedir}ToInstall/"
+
 main_repository = "https://jaclang.zorz.si/main-repository/"
 
 
@@ -55,3 +57,8 @@ def urlExists(url: str):
         return True
     except HTTPError:
         return False
+
+
+def makeCacheDir():
+    if not path.isdir(cachedir):
+        mkdir(cachedir)

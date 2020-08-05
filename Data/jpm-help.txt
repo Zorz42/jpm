@@ -4,5 +4,4 @@ jpm list               - list all installed packages
 jpm listall            - list all packages in main repository
 jpm cleanup            - remove unused dependencies and invalid files
 jpm upgrade            - upgrade jaclang to latest version
-jpm updatedatabase     - update database for listall and autocompletion
 jpm uninstall          - uninstall jac software

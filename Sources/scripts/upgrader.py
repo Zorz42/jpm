@@ -1,10 +1,9 @@
-from os import remove, system, popen
+from os import remove, system, popen, stat, path
 from shutil import rmtree
 from tarfile import open as tar_open
 from time import time
-from os import stat
 
-from globals import currentdir, datadir, removeFileIfExists, downloadFile, jacdir
+from globals import currentdir, removeFileIfExists, downloadFile, jacdir, cachedir
 from scripts.checkForRepositoryConnection import checkRepConnection
 
 newest_version: str
@@ -14,14 +13,13 @@ def checkForJaclangUpgrade(check_anyways=False):
     # download jaclang version file if could connect to the internet
 
     # check if it is internet connection and if newestversion.txt was not updated in the last 24 hours
-    if check_anyways or (checkRepConnection() and
-                         (time() - stat(f"{datadir}newestversion.txt").st_ctime >= 86400 or
-                          open(f"{datadir}newestversion.txt").read() != "nonexistent\n")):
+    if check_anyways or (not path.isfile(f"{cachedir}newestversion.txt") or
+                         time() - stat(f"{cachedir}newestversion.txt").st_ctime >= 86400 and checkRepConnection()):
         downloadFile("https://raw.githubusercontent.com/Zorz42/jaclang/master/Headers/version.h",
-                     f"{datadir}newestversion.txt")
+                     f"{cachedir}newestversion.txt")
 
     # open version file
-    with open(datadir + "newestversion.txt") as newest_version_file:
+    with open(f"{cachedir}newestversion.txt") as newest_version_file:
         global newest_version
         # parse version file
         newest_version = "BETA " + ".".join([line.split(" ")[2][1:-1] for line in

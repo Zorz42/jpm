@@ -4,7 +4,7 @@ from shutil import rmtree
 from tarfile import open as tar_open
 
 from globals import choice, throwError, installdir, main_repository, libdir, removeFileIfExists, downloadFile, \
-    urlExists, jacdir
+    urlExists, jacdir, makeCacheDir
 from scripts.listPackages import listInstalledPackages, printPackages
 from scripts.verify import verifyPackageJson, packageExists
 
@@ -100,8 +100,11 @@ def clearDirectory(dir_path: str):
 
 
 def install(package_names: set):
-    # first clear install directory
-    clearDirectory(installdir)
+    makeCacheDir()
+    if not path.isdir(installdir):
+        mkdir(installdir)
+    else:
+        clearDirectory(installdir)
 
     # build dependency tree for all packages
     for package in package_names:
@@ -121,4 +124,3 @@ def install(package_names: set):
         if choice():
             for package in package_names:
                 installPackage(package)
-    clearDirectory(installdir)

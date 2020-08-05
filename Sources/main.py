@@ -6,7 +6,7 @@ path.append("/usr/local/Jac/Jpm")
 
 from globals import throwError
 
-version = "1.6.16"
+version = "1.7.0"
 
 
 def main():
@@ -58,12 +58,6 @@ def main():
 
         checkForJaclangUpdate()
         listall()
-    elif arg == "updatedatabase":
-        from scripts.updateDatabase import updateDatabase
-        from scripts.checkForRepositoryConnection import checkConnection
-
-        checkConnection()
-        updateDatabase()
     elif arg == "uninstall":
         from scripts.uninstall import uninstall
 
