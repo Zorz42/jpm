@@ -38,20 +38,20 @@ def upgradeJaclang():
 
     # download archive
     version = "beta-" + newest_version.split(" ")[1]
-    removeFileIfExists(f"{currentdir}newerjaclang.zip")
+    removeFileIfExists(f"{cachedir}newerjaclang.zip")
     downloadFile(f"https://github.com/Zorz42/jaclang/archive/{version}.tar.gz",
-                 f"{currentdir}newerjaclang.tar.gz")
+                 f"{cachedir}newerjaclang.tar.gz")
 
     # extract archive
-    with tar_open(f"{currentdir}newerjaclang.tar.gz", "r:gz") as tar_file:
-        tar_file.extractall(path=currentdir)
+    with tar_open(f"{cachedir}newerjaclang.tar.gz", "r:gz") as tar_file:
+        tar_file.extractall(path=cachedir)
 
     # install jaclang
-    system(f"make -C {currentdir}jaclang-{version}")
+    system(f"make -C {cachedir}jaclang-{version}")
 
     # cleanup
-    remove(f"{currentdir}newerjaclang.zip")
-    rmtree(f"{currentdir}jaclang-{version}")
+    remove(f"{cachedir}newerjaclang.tar.gz")
+    rmtree(f"{cachedir}jaclang-{version}")
 
 
 def upgrade():
