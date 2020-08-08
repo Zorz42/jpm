@@ -1,4 +1,4 @@
-#!/usr/bin/env sudo python3
+#!/usr/bin/sudo python3
 
 from sys import version_info, argv, path
 
@@ -6,7 +6,7 @@ path.append("/usr/local/Jac/Jpm")
 
 from globals import throwError
 
-version = "1.7.2"
+version = "1.7.3"
 
 
 def main():
