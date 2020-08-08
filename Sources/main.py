@@ -4,7 +4,7 @@ path.append("/usr/local/Jac/Jpm")
 
 from globals import throwError
 
-version = "1.7.7"
+version = "1.7.8"
 
 
 def main():
