@@ -84,7 +84,7 @@ def installPackage(package_name: str):
         throwError(f"Package {package_name} is not valid and cannot be installed.")
         rmtree(libdir + package_name)
 
-    system(f"jacmake {libdir}{package_name}")
+    system(f"{jacdir}Binaries/jacmake {libdir}{package_name}")
 
     rmtree(f"{libdir}{package_name}/Sources")
 
