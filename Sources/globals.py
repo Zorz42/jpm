@@ -1,8 +1,5 @@
-from os import path, remove, mkdir
+from os import path, mkdir
 from sys import argv
-
-from urllib.request import urlopen, Request
-from urllib.error import HTTPError
 
 currentdir = path.split(path.abspath(path.realpath(argv[0])))[0] + "/"
 jacdir = "/usr/local/Jac/"
@@ -26,36 +23,15 @@ def choice():
             return False
 
 
-def removeFileIfExists(file_path: str):
-    if path.isfile(file_path):
-        remove(file_path)
-
-
-def downloadFile(url: str, file_destination: str):
-    with urlopen(url) as f:
-        html = f.read()
-    with open(file_destination, "wb") as file:
-        file.seek(0)
-        file.write(html)
-        file.truncate()
-
-
-def urlExists(url: str):
-    request = Request(url)
-    request.get_method = lambda: 'HEAD'
-
-    try:
-        urlopen(request)
-        return True
-    except HTTPError:
-        return False
-
-
 def makeCacheDir():
     if not path.isdir(cachedir):
         mkdir(cachedir)
 
 
 def printException(exception: Exception):
-    print(f"\x1b[0;31m{exception}\x1b[0m")
+    print(f"\x1b[1;31m{exception}\x1b[0m")
     exit()
+
+
+def printWarning(warning: str):
+    print(f"\x1b[1;33mWarning: {warning}\x1b[0m")

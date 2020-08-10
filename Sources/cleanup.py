@@ -2,9 +2,9 @@ from os import unlink, path
 from shutil import rmtree
 
 from globals import choice, libdir, printException
-from scripts.listPackages import printPackages
-from scripts.remove import removePackages, PackageError
-from scripts.checkForUnusedPackages import checkForUnusedPackages
+from listPackages import printPackages
+from remove import removePackages, PackageError
+from checkForUnusedPackages import checkForUnusedPackages
 
 
 def cleanup():

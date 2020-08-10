@@ -3,8 +3,8 @@ from os import stat, path
 from urllib.request import urlopen
 
 from globals import cachedir, main_repository
-from scripts.checkForRepositoryConnection import checkRepConnection
-from scripts.listPackages import printPackages
+from checkForRepositoryConnection import checkRepConnection
+from listPackages import printPackages
 
 
 def listUrlDir(url: str):

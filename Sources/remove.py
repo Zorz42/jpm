@@ -1,8 +1,8 @@
 from shutil import rmtree
 
-from globals import choice, libdir
-from scripts.listPackages import printPackages, packageExists
-from scripts.checkForUnusedPackages import checkForUnusedPackages
+from globals import choice, libdir, printWarning
+from listPackages import printPackages, packageExists
+from checkForUnusedPackages import checkForUnusedPackages
 
 
 class PackageError(Exception):
@@ -22,15 +22,15 @@ def removePackages(package_names: set, force=False):
     # get all unused packages to be removed and all dependencies and ignore all packages that are being removed
     unused_packages, _, dependencies = checkForUnusedPackages(package_names)
 
+    # add unused packages to remove list
+    package_names.update(unused_packages)
+
     # do not remove dependencies if not force
     if not force:
         for dependency in dependencies:
             if dependency in package_names:
-                print(f"Warning: Other packages depend {dependency}, so it will not be removed!")
+                printWarning(f"Other packages depend {dependency}, so it will not be removed!")
                 package_names.remove(dependency)
-
-    # add unused packages to remove list
-    package_names.update(unused_packages)
 
     if not package_names:
         print("Nothing to remove!")

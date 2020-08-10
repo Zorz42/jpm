@@ -27,9 +27,9 @@ def main():
     args = argv[2:]
 
     if arg == "install":
-        from scripts.install import install
-        from scripts.checkForRepositoryConnection import checkConnection, InternetConnectionError
-        from scripts.upgrader import checkForJaclangUpdate
+        from install import install
+        from checkForRepositoryConnection import checkConnection, InternetConnectionError
+        from upgrader import checkForJaclangUpdate
 
         checkForJaclangUpdate()
         try:
@@ -38,8 +38,8 @@ def main():
             printException(e_)
         install(set(args))
     elif arg == "remove":
-        from scripts.remove import removePackages, PackageError
-        from scripts.upgrader import checkForJaclangUpdate
+        from remove import removePackages, PackageError
+        from upgrader import checkForJaclangUpdate
 
         checkForJaclangUpdate()
         try:
@@ -47,18 +47,18 @@ def main():
         except PackageError as e_:
             printException(e_)
     elif arg == "list":
-        from scripts.listPackages import listPackages
+        from listPackages import listPackages
 
         listPackages()
     elif arg == "cleanup":
-        from scripts.cleanup import cleanup
-        from scripts.upgrader import checkForJaclangUpdate
+        from cleanup import cleanup
+        from upgrader import checkForJaclangUpdate
 
         checkForJaclangUpdate()
         cleanup()
     elif arg == "upgrade":
-        from scripts.upgrader import upgrade
-        from scripts.checkForRepositoryConnection import checkConnection, InternetConnectionError
+        from upgrader import upgrade
+        from checkForRepositoryConnection import checkConnection, InternetConnectionError
 
         try:
             checkConnection()
@@ -66,13 +66,13 @@ def main():
             printException(e_)
         upgrade()
     elif arg == "listall":
-        from scripts.listAll import listall
-        from scripts.upgrader import checkForJaclangUpdate
+        from listAll import listall
+        from upgrader import checkForJaclangUpdate
 
         checkForJaclangUpdate()
         listall()
     elif arg == "uninstall":
-        from scripts.uninstall import uninstall
+        from uninstall import uninstall
 
         uninstall()
     else:

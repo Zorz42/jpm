@@ -1,7 +1,7 @@
 from os import listdir
 
 from globals import libdir
-from scripts.verify import packageExists
+from verify import packageExists
 
 
 def printPackages(packages):

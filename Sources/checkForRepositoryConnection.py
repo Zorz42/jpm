@@ -1,4 +1,4 @@
-from globals import urlExists
+from util import urlExists
 
 
 # because ConnectionError is already in builtins

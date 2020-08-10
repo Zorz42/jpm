@@ -1,6 +1,6 @@
 from json import load
 
-from scripts.listPackages import listInstalledPackages
+from listPackages import listInstalledPackages
 from globals import libdir
 
 used_packages: set
@@ -19,9 +19,9 @@ def checkForUnusedPackages(ignore: set):
     # lists unused dependencies, files to remove and all packages that are a dependency
     global used_packages, infos
     used_packages, infos = set(), {}
+    dependencies = set()
 
     installed_packages, to_remove = listInstalledPackages()
-    dependencies = set()
 
     # collect all infos of installed packages
     for package in installed_packages:
@@ -36,4 +36,7 @@ def checkForUnusedPackages(ignore: set):
     for package in packages:
         listDependencies(package)
 
-    return {x for x in installed_packages if x not in used_packages}, to_remove, dependencies
+    unused_packages = {x for x in installed_packages if x not in used_packages}
+    unused_packages.update(ignore)
+
+    return unused_packages, to_remove, [dep for dep in dependencies if dep not in unused_packages]
