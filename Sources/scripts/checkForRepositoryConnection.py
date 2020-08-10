@@ -1,4 +1,9 @@
-from globals import throwError, urlExists
+from globals import urlExists
+
+
+# because ConnectionError is already in builtins
+class InternetConnectionError(Exception):
+    pass
 
 
 def checkRepConnection():
@@ -7,4 +12,4 @@ def checkRepConnection():
 
 def checkConnection():
     if not checkRepConnection():
-        throwError("Cannot connect to the repository!")
+        raise InternetConnectionError("Cannot connect to the repository!")

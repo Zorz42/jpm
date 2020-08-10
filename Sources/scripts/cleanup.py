@@ -1,9 +1,9 @@
 from os import unlink, path
 from shutil import rmtree
 
-from globals import choice, libdir
+from globals import choice, libdir, printException
 from scripts.listPackages import printPackages
-from scripts.remove import removePackages
+from scripts.remove import removePackages, PackageError
 from scripts.checkForUnusedPackages import checkForUnusedPackages
 
 
@@ -14,7 +14,10 @@ def cleanup():
     if not unused_packages:
         print("All packages are being used.")
     else:
-        removePackages(unused_packages, force=True)
+        try:
+            removePackages(unused_packages, force=True)
+        except PackageError as e:
+            printException(e)
 
     if to_remove:
         print("Following files/directories do not belong into jaclang-libraries and will be removed:")

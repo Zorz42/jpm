@@ -3,7 +3,7 @@ from shutil import rmtree
 from tarfile import open as tar_open
 from time import time
 
-from globals import currentdir, removeFileIfExists, downloadFile, jacdir, cachedir, makeCacheDir
+from globals import removeFileIfExists, downloadFile, jacdir, cachedir, makeCacheDir
 from scripts.checkForRepositoryConnection import checkRepConnection
 
 newest_version: str

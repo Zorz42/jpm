@@ -3,10 +3,14 @@ from json import load, dump, decoder
 from shutil import rmtree
 from tarfile import open as tar_open
 
-from globals import choice, throwError, installdir, main_repository, libdir, removeFileIfExists, downloadFile, \
-    urlExists, jacdir, makeCacheDir
+from globals import choice, installdir, main_repository, libdir, removeFileIfExists, downloadFile, jacdir, \
+    makeCacheDir, printException, HTTPError
 from scripts.listPackages import listInstalledPackages, printPackages
 from scripts.verify import verifyPackageJson, packageExists
+
+
+class DependencyError(Exception):
+    pass
 
 
 def buildDepTree(package_name: str, dependency=False):
@@ -14,23 +18,22 @@ def buildDepTree(package_name: str, dependency=False):
     if path.isfile(f"{installdir}{package_name}.json"):
         return True
 
-    # check if package exists
-    if not urlExists(f"{main_repository}{package_name}/Latest.json"):
-        throwError(f"Package {package_name} does not exist.")
-
     # download info file
-    downloadFile(f"{main_repository}{package_name}/Latest.json", f"{installdir}{package_name}.json")
+    try:
+        downloadFile(f"{main_repository}{package_name}/Latest.json", f"{installdir}{package_name}.json")
+    except HTTPError:
+        raise DependencyError(f"Package '{package_name}' does not exist.")
 
     # decode info file
     with open(f"{installdir}{package_name}.json") as info_file:
         try:
             info = load(info_file)
         except decoder.JSONDecodeError:
-            throwError(f"Package {package_name} is damaged and therefore cannot be downloaded!")
+            raise DependencyError(f"Package '{package_name}' is damaged and therefore cannot be downloaded!")
 
     # verify info file
     if not verifyPackageJson(info, installed=False):
-        throwError(f"Package {package_name} is incomplete and therefore cannot be downloaded!")
+        raise DependencyError(f"Package '{package_name}' is incomplete and therefore cannot be downloaded!")
 
     # get current jaclang version and supported one
     supported_version = [int(x) for x in info["Supported Version"].split(".")]
@@ -39,7 +42,7 @@ def buildDepTree(package_name: str, dependency=False):
 
     # check if package supports current jaclang version
     if current_jaclang_version[0] != supported_version[0] or current_jaclang_version[1] < supported_version[1]:
-        throwError(f"Package {package_name} is not compatible with your current version of jaclang!")
+        raise DependencyError(f"Package '{package_name}' is not compatible with your current version of jaclang!")
 
     # remove unnecessary dependencies to save characters in info file
     for dependency_ in info["Dependencies"].copy():
@@ -65,7 +68,7 @@ def installPackage(package_name: str):
     with open(f"{installdir}{package_name}.json") as info_file:
         info = load(info_file)
 
-    # first remove file to be downloaded if it would be there for some reason
+    # first remove file to be downloaded if it would be there
     removeFileIfExists(f"{libdir}{package_name}.tar.gz")
 
     # download archive
@@ -81,8 +84,7 @@ def installPackage(package_name: str):
     replace(f"{installdir}{package_name}.json", f"{libdir}{package_name}/Info.json")
 
     if not packageExists(package_name):
-        throwError(f"Package {package_name} is not valid and cannot be installed.")
-        rmtree(libdir + package_name)
+        raise DependencyError(f"Package {package_name} is not valid and cannot be installed.")
 
     system(f"{jacdir}Binaries/jacmake {libdir}{package_name}")
 
@@ -106,10 +108,13 @@ def install(package_names: set):
     else:
         clearDirectory(installdir)
 
-    # build dependency tree for all packages
-    for package in package_names:
-        if not path.isdir(f"{installdir}{package}"):
-            buildDepTree(package)
+    try:
+        # build dependency tree for all packages
+        for package in package_names:
+            if not path.isdir(f"{installdir}{package}"):
+                buildDepTree(package)
+    except DependencyError as e:
+        printException(e)
 
     # remove already installed packages from he to install list
     package_names = {x[:-5] for x in listdir(installdir) if x.endswith(".json")}

@@ -1,19 +1,23 @@
 from shutil import rmtree
 
-from globals import throwError, choice, libdir
+from globals import choice, libdir
 from scripts.listPackages import printPackages, packageExists
 from scripts.checkForUnusedPackages import checkForUnusedPackages
+
+
+class PackageError(Exception):
+    pass
 
 
 def removePackages(package_names: set, force=False):
     # remove packages, force if remove dependencies too
     if not package_names:
-        throwError("Cannot remove nothing!")
+        raise PackageError("Cannot remove nothing!")
 
     # first check if all packages exist
     for package in package_names:
         if not packageExists(package):
-            throwError(f"Package {package} is not installed.")
+            raise PackageError(f"Package {package} is not installed.")
 
     # get all unused packages to be removed and all dependencies and ignore all packages that are being removed
     unused_packages, _, dependencies = checkForUnusedPackages(package_names)

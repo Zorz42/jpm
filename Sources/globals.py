@@ -26,22 +26,14 @@ def choice():
             return False
 
 
-def throwError(text="", end="\n", flush=False):
-    print(f"\x1b[0;31m{text}\x1b[0m", end=end, flush=flush)
-    exit()
-
-
 def removeFileIfExists(file_path: str):
     if path.isfile(file_path):
         remove(file_path)
 
 
 def downloadFile(url: str, file_destination: str):
-    try:
-        with urlopen(url) as f:
-            html = f.read()
-    except HTTPError:
-        throwError(f"{url} could not be downloaded!")
+    with urlopen(url) as f:
+        html = f.read()
     with open(file_destination, "wb") as file:
         file.seek(0)
         file.write(html)
@@ -62,3 +54,8 @@ def urlExists(url: str):
 def makeCacheDir():
     if not path.isdir(cachedir):
         mkdir(cachedir)
+
+
+def printException(exception: Exception):
+    print(f"\x1b[0;31m{exception}\x1b[0m")
+    exit()

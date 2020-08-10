@@ -1,15 +1,21 @@
 from sys import version_info, argv, path
+from globals import printException
 
 path.append("/usr/local/Jac/Jpm")
-
-from globals import throwError
-
 version = "1.7.10"
+
+
+class VersionMismatch(Exception):
+    pass
+
+
+class ArgumentError(Exception):
+    pass
 
 
 def main():
     if version_info.major != 3:
-        throwError("Must be using Python3")
+        raise VersionMismatch("Must be using Python3")
 
     if len(argv) == 1:
         print(f"Jpm {version} - help:")
@@ -22,18 +28,24 @@ def main():
 
     if arg == "install":
         from scripts.install import install
-        from scripts.checkForRepositoryConnection import checkConnection
+        from scripts.checkForRepositoryConnection import checkConnection, InternetConnectionError
         from scripts.upgrader import checkForJaclangUpdate
 
         checkForJaclangUpdate()
-        checkConnection()
+        try:
+            checkConnection()
+        except InternetConnectionError as e_:
+            printException(e_)
         install(set(args))
     elif arg == "remove":
-        from scripts.remove import removePackages
+        from scripts.remove import removePackages, PackageError
         from scripts.upgrader import checkForJaclangUpdate
 
         checkForJaclangUpdate()
-        removePackages(set(args))
+        try:
+            removePackages(set(args))
+        except PackageError as e_:
+            printException(e_)
     elif arg == "list":
         from scripts.listPackages import listPackages
 
@@ -46,9 +58,12 @@ def main():
         cleanup()
     elif arg == "upgrade":
         from scripts.upgrader import upgrade
-        from scripts.checkForRepositoryConnection import checkConnection
+        from scripts.checkForRepositoryConnection import checkConnection, InternetConnectionError
 
-        checkConnection()
+        try:
+            checkConnection()
+        except InternetConnectionError as e_:
+            printException(e_)
         upgrade()
     elif arg == "listall":
         from scripts.listAll import listall
@@ -61,8 +76,13 @@ def main():
 
         uninstall()
     else:
-        throwError("Unknown argument: " + arg)
+        raise ArgumentError(f"Unknown argument: {arg}")
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except VersionMismatch as e:
+        printException(e)
+    except ArgumentError as e:
+        printException(e)
