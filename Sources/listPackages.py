@@ -5,10 +5,7 @@ from verify import packageExists
 
 
 def printPackages(packages):
-    # pretty print packages
-    for package in packages:
-        print(package, end="     ")
-    print()
+    print("     ".join(packages))
 
 
 def listInstalledPackages():

@@ -7,7 +7,7 @@ class InternetConnectionError(Exception):
 
 
 def checkRepConnection():
-    return urlExists("https://jaclang.zorz.si")
+    return urlExists("https://jaclang.zorz.si/main-repository")
 
 
 def checkConnection():

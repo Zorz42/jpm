@@ -1,10 +1,7 @@
 from os import path, mkdir
-from sys import argv
 
-currentdir = path.split(path.abspath(path.realpath(argv[0])))[0] + "/"
 jacdir = "/usr/local/Jac/"
 libdir = f"{jacdir}Libraries/"
-datadir = f"{jacdir}Data/"
 cachedir = f"{jacdir}Caches/"
 installdir = f"{cachedir}ToInstall/"
 
@@ -12,8 +9,8 @@ main_repository = "https://jaclang.zorz.si/main-repository/"
 
 
 def choice():
-    yes_options = ["Y", "YES"]
-    no_options = ["N", "NO"]
+    yes_options = ("Y", "YES")
+    no_options = ("N", "NO")
     while True:
         print("Proceed? [y,n]: ", end="", flush=True)
         answer = input()

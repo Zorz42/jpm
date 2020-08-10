@@ -11,8 +11,6 @@ class PackageError(Exception):
 
 def removePackages(package_names: set, force=False):
     # remove packages, force if remove dependencies too
-    if not package_names:
-        raise PackageError("Cannot remove nothing!")
 
     # first check if all packages exist
     for package in package_names:
@@ -32,14 +30,11 @@ def removePackages(package_names: set, force=False):
                 printWarning(f"Other packages depend {dependency}, so it will not be removed!")
                 package_names.remove(dependency)
 
-    if not package_names:
-        print("Nothing to remove!")
-        return
+    if package_names:
+        print("Following packages will be removed:")
+        printPackages(package_names)
 
-    print("Following packages will be removed:")
-    printPackages(package_names)
-
-    if choice():
-        for package_name in package_names:
-            rmtree(libdir + package_name)
-        print(f"Removed {len(package_names)} packages.")
+        if choice():
+            for package_name in package_names:
+                rmtree(libdir + package_name)
+            print(f"Removed {len(package_names)} packages.")

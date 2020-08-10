@@ -5,7 +5,7 @@ from time import time
 
 from globals import jacdir, cachedir, makeCacheDir
 from checkForRepositoryConnection import checkRepConnection
-from util import removeFileIfExists, downloadFile
+from util import downloadFile, extractTar
 
 newest_version: str
 
@@ -26,12 +26,7 @@ def checkForJaclangUpgrade(check_anyways=False):
         # parse version file
         newest_version = "BETA " + ".".join([line.split(" ")[2][1:-1] for line in
                                              newest_version_file.read().split("\n") if line])
-        try:
-            currentjaclangversion = popen(f"{jacdir}Binaries/jaclang --version").read()[:-1]
-        except FileNotFoundError:
-            currentjaclangversion = b"nonexistent"
-
-        return newest_version != currentjaclangversion
+        return newest_version != popen(f"{jacdir}Binaries/jaclang --version").read()[:-1]
 
 
 def upgradeJaclang():
@@ -39,13 +34,11 @@ def upgradeJaclang():
 
     # download archive
     version = "beta-" + newest_version.split(" ")[1]
-    removeFileIfExists(f"{cachedir}newerjaclang.zip")
     downloadFile(f"https://github.com/Zorz42/jaclang/archive/{version}.tar.gz",
                  f"{cachedir}newerjaclang.tar.gz")
 
     # extract archive
-    with tar_open(f"{cachedir}newerjaclang.tar.gz", "r:gz") as tar_file:
-        tar_file.extractall(path=cachedir)
+    extractTar(f"{cachedir}newerjaclang.tar.gz", cachedir)
 
     # install jaclang
     system(f"make -C {cachedir}jaclang-{version}")

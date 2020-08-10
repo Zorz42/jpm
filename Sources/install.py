@@ -98,5 +98,3 @@ def install(package_names: set):
         if choice():
             for package in package_names:
                 installPackage(package)
-    else:
-        print("Nothing to install!")

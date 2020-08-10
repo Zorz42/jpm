@@ -21,9 +21,8 @@ def listUrlDir(url: str):
 def listall():
     if not path.isfile(f"{cachedir}jpm-database.txt") or \
             time() - stat(f"{cachedir}jpm-database.txt").st_ctime >= 86400 and checkRepConnection():
-        packages = listUrlDir(main_repository)
         with open(f"{cachedir}jpm-database.txt", "w") as database:
-            database.write("\n".join(packages))
+            database.write("\n".join(listUrlDir(main_repository)))
     print("Listing all installable packages:")
     with open(f"{cachedir}jpm-database.txt") as database:
         printPackages(database.read().split("\n"))
