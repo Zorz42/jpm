@@ -79,17 +79,22 @@ def install(package_names: set):
         rmtree(installdir)
     mkdir(installdir)
 
+    turn_to_packages = set()
+    already_installed = listInstalledPackages()[0]
     # build dependency tree for all packages
     try:
         for package in package_names:
             if not path.isdir(f"{installdir}{package}"):
                 buildDepTree(package)
+                if package in already_installed:
+                    info = loadInfo(f"{libdir}{package}/Info.json")
+                    if info["Type"] != "Package":
+                        turn_to_packages.add(package)
     except DependencyError as e:
         printException(e)
 
     # remove already installed packages from he to install list
     package_names = {x[:-5] for x in listdir(installdir) if x.endswith(".json")}
-    already_installed = listInstalledPackages()[0]
     package_names = {x for x in package_names if x not in already_installed}
 
     if package_names:
@@ -98,3 +103,12 @@ def install(package_names: set):
         if choice():
             for package in package_names:
                 installPackage(package)
+
+    if turn_to_packages:
+        print("Following packages are already installed as dependencies and will be turned into packages:")
+        printPackages(turn_to_packages)
+        if choice():
+            for package in turn_to_packages:
+                info = loadInfo(f"{libdir}{package}/Info.json")
+                info["Type"] = "Package"
+                writeInfo(info, f"{libdir}{package}/Info.json")
