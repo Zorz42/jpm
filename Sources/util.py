@@ -19,7 +19,8 @@ def loadInfo(file_path: str):
 
 
 def extractTar(tar_path: str, directory_path: str, remove_tar=False):
-    mkdir(directory_path)
+    if not path.isdir(directory_path):
+        mkdir(directory_path)
     with tar_open(tar_path, "r:gz") as tar_file:
         tar_file.extractall(path=directory_path)
     if remove_tar:

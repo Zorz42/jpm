@@ -2,7 +2,7 @@ from sys import version_info, argv, path
 from globals import printException
 
 path.append("/usr/local/Jac/Jpm")
-version = "1.7.11"
+version = "1.7.12"
 
 
 class VersionMismatch(Exception):
