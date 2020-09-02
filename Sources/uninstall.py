@@ -9,7 +9,7 @@ def uninstall():
     print("By running this you will uninstall all jac related software on this computer!")
     if choice():
         rmtree("/usr/local/Jac")
-	remove("/usr/local/bin/jpm")
-	remove("/usr/local/bin/jacmake")
-	remove("/usr/local/bin/jaclang")
+        remove("/usr/local/bin/jpm")
+        remove("/usr/local/bin/jacmake")
+        remove("/usr/local/bin/jaclang")
         print("Jac software removed.")
